@@ -1,2 +1,2 @@
-# PfN-Projekt
-Das PfN (2) Projekt aus dem Jahre 2020
+# PfN-Project
+The repository for the PfN (2) project in physics
