@@ -11,6 +11,6 @@ README:Makefile
 	@echo "Lazy Sampling is implemented in ${FILE_BASE}.c" > $@
 
 .PHONY:clean
-	clean:
+clean:
 	${RM} ${FILE_BASE}.[ox]
 	${RM} -r ${FILE_BASE}.x.dSYM__pycache__
