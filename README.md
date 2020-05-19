@@ -3,7 +3,7 @@
 </h1>
 
 <div align="center">
-  [Wiki Documentation][wiki]&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;[Wiki Documentation][wiki]&nbsp;&nbsp;&nbsp;
 </div>
 
 The repository for the PfN (2) project in physics
