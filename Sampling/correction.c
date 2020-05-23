@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
         break;
       }
     default:
-      fprintf(stderr, "Usage: %s <fraction of positive tests>", argv[1]);
+      fprintf(stderr, "Usage: %s <fraction of positive tests>", argv[0]);
       return 1;
   }
   printf("successfully applied correction!\n");
