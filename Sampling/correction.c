@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #define SPECIFICITY 0.991
 #define SENSITIVITY 0.909
@@ -24,8 +25,8 @@ int main(int argc, char *argv[])
       }
     default:
       fprintf(stderr, "Usage: %s <fraction of positive tests>", argv[0]);
-      return 1;
+      return EXIT_FAILURE;
   }
   printf("successfully applied correction!\n");
-  return 0;
+  return EXIT_SUCCESS;
 }
