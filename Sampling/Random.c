@@ -5,8 +5,8 @@
 int getRandomNumbers(unsigned int n)
 {
 	int i = 0;
-
-	srand48(time(NULL)); // Seed Generation based on system Time
+	int seed = 100;
+	srand48(seed); // Seed Generation based on system Time
 	while(i <= n) // printing out some values
 	{
 		printf("%f\n",drand48());
@@ -18,9 +18,10 @@ int getRandomNumbers(unsigned int n)
 void intoArray(unsigned int n)
 {
 	//only usable for low n
+	int seed = 100;
 	double arr[n];
 	int idx = 0;
-	srand48(time(NULL));
+	srand48(seed);
 	while(idx <= n)
 	{
 			arr[idx] = drand48();
