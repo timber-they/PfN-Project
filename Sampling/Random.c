@@ -15,6 +15,27 @@ int getRandomNumbers(unsigned int n)
 	return(EXIT_SUCCESS);
 }
 
+void intoArray(unsigned int n)
+{
+	//only usable for low n
+	double arr[n];
+	int idx = 0;
+	srand48(time(NULL));
+	while(idx <= n)
+	{
+			arr[idx] = drand48();
+			printf("%f\n",arr[idx]);
+			idx++;
+	}
+}
+
+void getRandomNumber(unsigned int n)
+{
+	srand48(time(NULL)); //Seed Generation based on system Time
+	printf("%f\n",drand48());
+}
+
+
 int main(int argc, char *argv[])
 {
 	int n;
@@ -23,5 +44,5 @@ int main(int argc, char *argv[])
   		fprintf(stderr, "Not a valid Argument");	
   		exit(EXIT_FAILURE);	
   	}
-  	getRandomNumbers(n);
+  	intoArray(n);
   }
