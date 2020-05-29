@@ -1,3 +1,4 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/metacolon/pfn-project/badge)](https://www.codefactor.io/repository/github/metacolon/pfn-project)
 <h1 align="center">
   <img src="images/Banner.png" alt="Banner" />
 </h1>
