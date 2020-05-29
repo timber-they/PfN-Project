@@ -1,12 +1,5 @@
 #include <check.h>
-#include "../Sampling/Lazy_Sampling.h"
-
-START_TEST(test_create_source)
-{
-    LazySource source = getLazySource(100, 0.5);
-    ck_assert_int_gt(source.Positives, 0);
-    ck_assert_int_gt(source.Negatives, 0);
-}
+#include "Check_Lazy_Sampling.h"
 
 int main (void)
 {
@@ -16,7 +9,8 @@ int main (void)
     int nf;
 
     suite_add_tcase(s1, tc1_1);
-    tcase_add_test(tc1_1, test_create_source);
+    tcase_add_test(tc1_1, test_create_source_non_empty);
+    tcase_add_test(tc1_1, test_take_well_distributed);
 
     srunner_run_all(sr, CK_NORMAL);
     nf = srunner_ntests_failed(sr);
