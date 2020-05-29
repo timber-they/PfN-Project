@@ -1,5 +1,5 @@
 cc?=clang
-CFLAGS=-g -Wall -Werror -Wunused-parameter -Wunused-variable -O3 -pedantic -lcheck
+CFLAGS=-g -Wall -Werror -Wunused-parameter -Wunused-variable -O3 -pedantic -lcheck -pthread -pthread -lrt -lm
 FILE_BASE=Checks
 
 all:${FILE_BASE}.x
