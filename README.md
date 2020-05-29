@@ -1,4 +1,4 @@
-[![CodeFactor](https://www.codefactor.io/repository/github/metacolon/pfn-project/badge)](https://www.codefactor.io/repository/github/metacolon/pfn-project)
+[![CodeFactor](https://www.codefactor.io/repository/github/metacolon/pfn-project/badge)](https://www.codefactor.io/repository/github/metacolon/pfn-project)![C/C++ CI](https://github.com/MetaColon/PfN-Project/workflows/C/C++%20CI/badge.svg)
 <h1 align="center">
   <img src="images/Banner.png" alt="Banner" />
 </h1>
