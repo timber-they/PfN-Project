@@ -6,7 +6,7 @@ int getRandomNumbers(unsigned int n)
 {
 	int i = 0;
 	int seed = 100;
-	srand48(seed); // Seed Generation based on system Time
+	srand48(seed); // Seed Generation seed variable
 	while(i <= n) // printing out some values
 	{
 		printf("%f\n",drand48());
@@ -32,7 +32,7 @@ void intoArray(unsigned int n)
 
 void getRandomNumber(unsigned int n)
 {
-	srand48(time(NULL)); // Seed Generation based on system Time
+	srand48(time(NULL)); // Seed Generation based on seed variable
 	printf("%f\n",drand48());
 }
 
