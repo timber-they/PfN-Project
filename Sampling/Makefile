@@ -1,14 +1,14 @@
 CC?=clang
 CFLAGS=-g -Wall -Werror -Wunused-parameter -Wunused-variable -O3 -pedantic
-FILE_BASE=Lazy_Sampling
+FILE_BASE=Program
 
 all:${FILE_BASE}.x
 
 %.x:%.c
-	${CC} ${CFLAGS} -o $@ $<
+	${CC} ${CFLAGS} -o $@ $< Lazy_Sampling.c
 
 README:Makefile
-	@echo "Lazy Sampling is implemented in ${FILE_BASE}.c" > $@
+	@echo "Lazy Sampling is implemented in Lazy_Sampling.c" > $@
 
 .PHONY:clean
 clean:

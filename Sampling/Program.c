@@ -1,4 +1,5 @@
 #include "Lazy_Sampling.h"
+#include <stdio.h>
 
 int main(int argc, char *argv[])
 {
