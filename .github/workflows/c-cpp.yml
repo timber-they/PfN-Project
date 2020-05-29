@@ -14,11 +14,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: make tests
-      run: make
-      working-directory: ./Tests
+      run: (cd Tests && make)
     - name: make Sampling
-      run: make
-      working-directory: ./Sampling
+      run: (cd Sampling && make)
     - name: make Extraction
-      run: make
-      working-directory: ./Extraction
+      run: (cd Extraction && make)
