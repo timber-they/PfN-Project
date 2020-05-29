@@ -13,8 +13,8 @@ jobs:
 
     steps:
     - name: make tests
-      run: Tests/make
+      run: (cd Tests && make)
     - name: make Sampling
-      run: Sampling/make
+      run: (cd Sampling && make)
     - name: make Extraction
-      run: Extraction/make
+      run: (cd Extraction && make)
