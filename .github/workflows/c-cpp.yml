@@ -16,7 +16,7 @@ jobs:
     - name: install check
       run: sudo apt-get install check
     - name: make tests
-      run: (cd Tests && make)
+      run: (cd Tests && make ubuntu=1)
     - name: make Sampling
       run: (cd Sampling && make)
     - name: make Extraction
