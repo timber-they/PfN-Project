@@ -14,10 +14,10 @@ jobs:
     steps:
     - name: make tests
       run: make
-      working-directory: Tests
+      working-directory: ./Tests
     - name: make Sampling
       run: make
-      working-directory: Sampling
+      working-directory: ./Sampling
     - name: make Extraction
       run: make
-      working-directory: Extraction
+      working-directory: ./Extraction
