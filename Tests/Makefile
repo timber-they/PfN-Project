@@ -1,11 +1,12 @@
-cc?=clang
-CFLAGS=-g -Wall -Werror -Wunused-parameter -Wunused-variable -O3 -pedantic -lcheck -pthread -pthread -lrt -lm
+cc=clang
+CFLAGS=-g -Wall -Werror -Wunused-parameter -Wunused-variable -O3 -pedantic
+CLIBS=-lcheck -pthread -pthread -lrt -lm
 FILE_BASE=Checks
 
 all:${FILE_BASE}.x
 
 %.x:%.c
-	${CC} ${CFLAGS} -o $@ $< ../Sampling/Lazy_Sampling.c
+	${CC} ${CFLAGS} -o $@ $< ${CLIBS} ../Sampling/Lazy_Sampling.c
 
 README:Makefile
 	@echo "Tests are implemented referenced in Checks.c \
