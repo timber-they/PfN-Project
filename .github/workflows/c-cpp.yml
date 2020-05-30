@@ -15,8 +15,10 @@ jobs:
     - uses: actions/checkout@v2
     - name: install check
       run: sudo apt-get install check
+    - name: determine OS
+      run: grep ^NAME=".*" /etc/os-release
     - name: make tests
-      run: (cd Tests && make ubuntu=1)
+      run: (cd Tests && make)
     - name: make Sampling
       run: (cd Sampling && make)
     - name: make Extraction

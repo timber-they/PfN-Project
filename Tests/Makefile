@@ -1,14 +1,16 @@
-cc=clang
+CC?=clang
 CFLAGS=-g -Wall -Werror -Wunused-parameter -Wunused-variable -O3 -pedantic
 CLIBS=-lcheck -pthread -pthread -lrt -lm
 UBUNTUFLAGS=-lsubunit
 FILE_BASE=Checks
 DEPENDENCIES=../Sampling/Lazy_Sampling.c
 
+OS?=$(shell grep ^NAME=".*" /etc/os-release)
+
 all:${FILE_BASE}.x
 
 %.x:%.c
-ifdef ubuntu
+ifneq (,$(findstring Ubuntu,${OS}))
 	${CC} ${CFLAGS} -o $@ $< ${CLIBS} ${UBUNTUFLAGS} ${DEPENDENCIES}
 else
 	${CC} ${CFLAGS} -o $@ $< ${CLIBS} ${DEPENDENCIES}
