@@ -61,7 +61,12 @@ int main(int argc, char *argv[])
       }
     if(argc == 3)
     {
-    	(sscanf(argv[2], "%u", &seed));
+    	sscanf(argv[2], "%u", &seed);
+    	if(seed < 0) 
+    	{
+    		fprintf(stderr, "The Seed has to be postive! \nseed: %d \n", seed );
+    		exit(EXIT_FAILURE);
+    	}
     }
     getRandomNumbers(n, seed);
   }
