@@ -1,4 +1,4 @@
-#include <stdlib.h>	
+	#include <stdlib.h>	
 #include <stdio.h>	
 #include <time.h>
 
@@ -9,6 +9,11 @@ int getRandomNumbers(unsigned int n, int temp_seed)
     if(temp_seed > 0)
     {
     	seed = temp_seed;
+    }
+    else
+    {
+    	fprintf(stderr, "%s: The Seed has to be postive! \nseed: %d \n",__FILE__, seed );
+    	exit(EXIT_FAILURE);
     }
     srand48(seed); // Seed Generation seed variable
     while(i <= n) // printing out some values
@@ -26,6 +31,11 @@ void intoArray(unsigned int n, int temp_seed)
     if(temp_seed > 0)
     {
     	seed = temp_seed;
+    }
+    else
+    {
+    	fprintf(stderr," %s: The Seed has to be postive! \nseed: %d \n",__FILE__, seed );
+    	exit(EXIT_FAILURE);
     }
     double arr[n];
     int idx = 0;
@@ -45,6 +55,11 @@ void getRandomNumber(unsigned int n, int temp_seed)
     {
     	seed = temp_seed;
     }
+    else
+    {
+    	fprintf(stderr, "%s: The Seed has to be postive! \nseed: %d \n",__FILE__, seed );
+    	exit(EXIT_FAILURE);
+    }
     srand48(seed); // Seed Generation based on seed variable
     printf("%f\n",drand48());
 }
@@ -62,11 +77,6 @@ int main(int argc, char *argv[])
     if(argc == 3)
     {
     	sscanf(argv[2], "%u", &seed);
-    	if(seed < 0) 
-    	{
-    		fprintf(stderr, "The Seed has to be postive! \nseed: %d \n", seed );
-    		exit(EXIT_FAILURE);
-    	}
     }
     getRandomNumbers(n, seed);
-  }
+}
