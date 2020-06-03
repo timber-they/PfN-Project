@@ -48,7 +48,7 @@ void intoArray(unsigned int n, int temp_seed)
     }
 }
 
-void getRandomNumber(unsigned int n, int temp_seed)
+void getRandomNumber(int temp_seed)
 {
 	int seed = 100;
 	if(temp_seed > 0)
