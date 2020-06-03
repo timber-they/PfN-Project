@@ -1,38 +1,55 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include "random.h"
+#include <stdlib.h>
+#include <assert.h>
 
-int sample_size = 1000;
-double probability = 0.5;
-
-bool *getSampleArray(int size, int prob) {
+/* retunrs an array with random booleans */
+bool *getSampleArray(int size, double prob, int seed) {
     bool *arr = malloc(size * sizeof(bool));
-    double rand;
+    srand48(seed);
     for (int i = 0; i < size; i++) {
-        rand = getRandomNumber();
-        if(rand < prob) {
+        if(drand48() < prob) {
             *(arr+i) = true;
         }
     }
     return arr;
 }
 
-int getPositives(int size, int prob) {
+/* returns the number of positives in a sample without using an array */
+int getPositives(int size, double prob, int seed) {
     int pos = 0;
     double rand;
+    srand48(seed);
     for (int i = 0; i < size; i++) {
-        rand = getRandomNumber();
-        printf("%f\n",rand);
-        if(rand < prob) {
+        rand = drand48();
+        if(rand > prob) {
             pos++;
         }
     }
-    printf("%u von %u positiv", pos, sample_size);
+    printf("Lazy: %u von %u positiv\n", pos, size);
     return pos;
+}
+
+void testBasicSampling(int size, double prob, int seed) {
+    int posArr, posLazy;
+    posLazy = getPositives(size, prob, seed);
+    bool *sampleArray = getSampleArray(size, prob, seed);
+    posArr = 0;
+    for (int i = 0; i < size; i++) {
+        if(!*(sampleArray + i)) {
+            posArr++;
+        }
+    }
+    printf("Array: %u von %u positiv\n", posArr, size);
+    assert(posArr == posLazy);
 }
 
 int main(int argc, char *argv[])
 {
-    getPositives(sample_size, probability);
+    int sample_size = 1000;
+    double probability = 0.5;
+    int seed = 101;
+    //getPositives(sample_size, probability, seed);
+    testBasicSampling(sample_size, probability, seed);
 }
 
