@@ -8,7 +8,7 @@ DEPENDENCIES=../Sampling/Lazy_Sampling.c ../Extraction/Histograms.c
 
 OS?=$(shell [ -e "/etc/os-release" ] && grep ^NAME=".*" /etc/os-release)
 ifeq ($(OS),)
-	OS?=$(shell uname -s)
+	OS=$(shell uname -s)
 endif
 
 all:${FILE_BASE}.x
