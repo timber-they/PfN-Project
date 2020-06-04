@@ -40,8 +40,6 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - name: install brew
-      run: yes | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
     - name: install check
       run: sudo brew install check
     - name: make tests
