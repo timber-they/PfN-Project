@@ -41,7 +41,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: install check
-      run: sudo brew install check
+      run: brew install check
     - name: make tests
       run: (cd Tests && make)
     - name: make Sampling
