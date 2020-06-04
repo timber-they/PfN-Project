@@ -1,24 +1,50 @@
 #include <stdlib.h>
 #include <stdio.h>
-#define NUM_COMMANDS 8
+#include <string.h>
+#include <unistd.h>
+#include "Histograms.h"
 
-int main()
+//the maximum lenth for the filname of the sources is 32 characters
+int paintHistogram(char *source)
 {
-    int i;
+    int i, numCommands = 8;
+    char *plotCommand = (char *) malloc(50 * sizeof(char));
+    if (strlen(source) > 32)
+    {
+        // filename is too long
+        fprintf(stderr, "Histograms: name of source file ist too long (max 32 characters)\n");
+        return 1;
+    }
+    if (access(source, F_OK) == -1 )
+    {
+        // file doesn't exist
+        fprintf(stderr, "Histograms: invalid name of source for histograms function, or source doesnt exist.\n");
+        return 1;
+    }
+    strcpy(plotCommand, "plot \"");
+    strcat(plotCommand, source);
+    strcat(plotCommand, "\" w boxes");
     char * commandsForGnuplot[] = {"set title \"Distribution\"", "set xlabel \"x\"",
         "set ylabel \"Probability\"", "set xrange [-0.1:1.1]", "set size square",
         "set boxwidth 0.85 relative", "set style fill solid 1.0",
-        "plot \"data.dat\"  w boxes"};
+        plotCommand};
     /*
     Opens an interface that one can use to send commands as if they were typing into the
     gnuplot command line.  "The -persistent" keeps the plot open even after your
     C program terminates.
     */
     FILE * gnuplotPipe = popen ("gnuplot -persistent", "w");
-
-    for (i=0; i < NUM_COMMANDS; i++)
+    if (gnuplotPipe == NULL)
     {
-    fprintf(gnuplotPipe, "%s \n", commandsForGnuplot[i]); // Send commands to gnuplot one by one.
+        fprintf(stderr, "Unable to create gnuplot pipe to paint histogram");
+        free(plotCommand);
+        return 1;
     }
+    for (i=0; i < numCommands; i++)
+    {
+    // Send commands to gnuplot one by one.
+    fprintf(gnuplotPipe, "%s \n", commandsForGnuplot[i]);
+    }
+    free(plotCommand);
     return 0;
 }
