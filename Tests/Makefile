@@ -5,7 +5,7 @@ UBUNTUFLAGS=-lsubunit
 FILE_BASE=Checks
 DEPENDENCIES=../Sampling/Lazy_Sampling.c ../Extraction/Histograms.c
 
-OS?=$(shell grep ^NAME=".*" /etc/os-release)
+OS?=$(shell ([ -e "/etc/os-release" ] && grep ^NAME=".*" /etc/os-release))
 
 all:${FILE_BASE}.x
 
