@@ -23,6 +23,7 @@ else
 # Everything else
 	${CC} ${CFLAGS} -o $@ $< ${CLIBS} ${DEPENDENCIES}
 endif
+endif
 
 README:Makefile
 	@echo "Tests are implemented referenced in Checks.c \
