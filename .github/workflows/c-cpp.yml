@@ -48,4 +48,3 @@ jobs:
       run: (cd Sampling && make)
     - name: make Extraction
       run: (cd Extraction && make)
-        
