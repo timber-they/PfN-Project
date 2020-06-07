@@ -2,23 +2,25 @@
 #include "Check_Lazy_Sampling.h"
 #include "Check_Histograms.h"
 #include "Check_Random.h"
+#include "Check_correction.h"
 
 int main (void)
 {
-    Suite *s1 = suite_create("Core");
-    TCase *tc1_1 = tcase_create("Core");
-    SRunner *sr = srunner_create(s1);
-    int nf;
+  Suite *s1 = suite_create("Core");
+  TCase *tc1_1 = tcase_create("Core");
+  SRunner *sr = srunner_create(s1);
+  int nf;
 
-    suite_add_tcase(s1, tc1_1);
-    tcase_add_test(tc1_1, test_create_source_non_empty);
-    tcase_add_test(tc1_1, test_take_well_distributed);
-    tcase_add_test(tc1_1, test_painting_errors);
-    tcase_add_test(tc1_1, test_random);
+  suite_add_tcase(s1, tc1_1);
+  tcase_add_test(tc1_1, test_create_source_non_empty);
+  tcase_add_test(tc1_1, test_take_well_distributed);
+  tcase_add_test(tc1_1, test_painting_errors);
+  tcase_add_test(tc1_1, test_random);
+  tcase_add_test(tc1_1, test_correction);
     
-    srunner_run_all(sr, CK_NORMAL);
-    nf = srunner_ntests_failed(sr);
-    srunner_free(sr);
+  srunner_run_all(sr, CK_NORMAL);
+  nf = srunner_ntests_failed(sr);
+  srunner_free(sr);
 
-    return nf == 0 ? 0 : 1;
+  return nf == 0 ? 0 : 1;
 }
