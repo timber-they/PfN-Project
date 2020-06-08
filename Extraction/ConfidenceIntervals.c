@@ -24,11 +24,11 @@ double gaussConf(double standDev, unsigned int numOfVals, float level)
             case 990: Z = 2.576; break;
             case 995: Z = 2.807; break;
 	    case 999: Z = 3.291; break;
-	    default: 
-		printf("Please choose level of confidence from 0.8, 0.85, 0.9, 0.95, 0.99, 0.995, 0.999"); 
+	    default:
+		printf("Please choose level of confidence from 0.8, 0.85, 0.9, 0.95, 0.99, 0.995, 0.999");
 		return EXIT_FAILURE;
     }
-    
+
     double s = sqrt(numOfVals);
     double c = Z * standDev / s;
     return c;
@@ -48,7 +48,7 @@ double * conf(double *sorted, size_t n_elems, float level)
 	{
 		fprintf(stderr, "Please input level greater than 0 and 1 at maximum");
 	}
-	
+
 	static double intervals[2];
 	int min, max;
 	max = (int) ((0.5 + level / 2) * n_elems - 1);
@@ -56,7 +56,7 @@ double * conf(double *sorted, size_t n_elems, float level)
 
 	intervals[0] = sorted[min];
 	intervals[1] = sorted[max];
-	
+
 	return intervals;
 }
 
@@ -70,4 +70,4 @@ int main()
 	c = conf(vals, size, level);
 
 	printf("%f of %li values lies in [%f, %f]\n", level, size, c[0], c[1]);
-}   
+}
