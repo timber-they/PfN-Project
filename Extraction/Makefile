@@ -1,7 +1,8 @@
 CC?=clang
 CFLAGS=-g -Wall -Werror -Wunused-parameter -Wunused-variable -O3 -pedantic
 CLIBS=-lm
-FILE_BASE=ConfidenceIntervals
+FILE_BASE=Program
+
 
 all:${FILE_BASE}.x
 
@@ -9,7 +10,7 @@ all:${FILE_BASE}.x
 	${CC} ${CFLAGS} -o $@ $< ${CLIBS}
 
 README:Makefile
-	@echo "ConfidenceIntervals is implemented in ${FILE_BASE}.c" > $@
+	@echo "ConfidenceIntervals is implemented in ConfidenceIntervals.c > $@
 
 .PHONY:clean
 clean:
