@@ -24,3 +24,4 @@ START_TEST(test_conf_itvl_negative){
   ck_assert(*conf_hundred == -4);
   ck_assert(*(conf_hundred + 1) == -1.0);
 }
+END_TEST
