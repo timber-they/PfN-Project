@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include <assert.h>
 
 /* retunrs an array with random booleans */
 bool *getSampleArray(int size, double prob, int seed) {
@@ -26,30 +25,6 @@ int getPositives(int size, double prob, int seed) {
             pos++;
         }
     }
-    printf("Lazy: %u von %u positiv\n", pos, size);
     return pos;
-}
-
-void testBasicSampling(int size, double prob, int seed) {
-    int posArr, posLazy;
-    posLazy = getPositives(size, prob, seed);
-    bool *sampleArray = getSampleArray(size, prob, seed);
-    posArr = 0;
-    for (int i = 0; i < size; i++) {
-        if(!*(sampleArray + i)) {
-            posArr++;
-        }
-    }
-    printf("Array: %u von %u positiv\n", posArr, size);
-    assert(posArr == posLazy);
-}
-
-int main(int argc, char *argv[])
-{
-    int sample_size = 1000;
-    double probability = 0.5;
-    int seed = 101;
-    //getPositives(sample_size, probability, seed);
-    testBasicSampling(sample_size, probability, seed);
 }
 
