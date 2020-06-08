@@ -23,7 +23,9 @@ jobs:
         sudo apt-key list | \
           grep "expired: " | \
           sed -ne 's|pub .*/\([^ ]*\) .*|\1|gp' | \
-          xargs -n1 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys      
+          xargs -n1 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys
+    - name: remove invalid repository
+      run: sudo add-apt-repository --remove https://storage.googleapis.com/bazel-apt
     - name: update apt
       run: sudo apt-get --allow-unauthenticated update
     - name: determine check version
