@@ -3,6 +3,7 @@
 #include "Check_Histograms.h"
 #include "Check_Random.h"
 #include "Check_correction.h"
+#include "Check_Basic_Sampling.h"
 
 int main (void)
 {
@@ -17,6 +18,7 @@ int main (void)
   tcase_add_test(tc1_1, test_painting_errors);
   tcase_add_test(tc1_1, test_random);
   tcase_add_test(tc1_1, test_correction);
+    tcase_add_test(tc1_1, test_basic_sampling);
     
   srunner_run_all(sr, CK_NORMAL);
   nf = srunner_ntests_failed(sr);

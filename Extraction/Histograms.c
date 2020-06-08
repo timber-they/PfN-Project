@@ -36,7 +36,7 @@ int paintHistogram(char *source)
     FILE * gnuplotPipe = popen ("gnuplot -persistent", "w");
     if (gnuplotPipe == NULL)
     {
-        fprintf(stderr, "Unable to create gnuplot pipe to paint histogram");
+        fprintf(stderr, "Histograms: Unable to create gnuplot pipe to paint histogram\n");
         free(plotCommand);
         return 1;
     }
