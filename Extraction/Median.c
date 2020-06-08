@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <stdio.h>
 /* This can overflow? */
 int comp_double(const void *a, const void *b)
 {
@@ -26,13 +25,3 @@ double median_sort(double *array, size_t n_elems)
         return array[n_elems / 2];
     }
 }
-
-
-int main(void)
-{
-  double array[4] = {1.0, 2.3, 4.5, 2.2};
-  double median = median_sort(array, 4);
-  printf("%f\n", median);
-  return EXIT_SUCCESS;
-}
-
