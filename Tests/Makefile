@@ -4,7 +4,7 @@ CLIBS=-lcheck -pthread -pthread -lrt -lm
 MACCLIBS=-lcheck -pthread -pthread -lm
 UBUNTUFLAGS=-lsubunit
 FILE_BASE=Checks
-DEPENDENCIES=../Sampling/Lazy_Sampling.c ../Sampling/Random.c ../Extraction/Histograms.c ../Sampling/correction.c ../Sampling/Basic_Sampling.c ../Extraction/Median.c
+DEPENDENCIES=../Sampling/Lazy_Sampling.c ../Sampling/Random.c ../Extraction/Histograms.c ../Sampling/correction.c ../Sampling/Basic_Sampling.c ../Extraction/Median.c ../Extraction/ConfidenceIntervals.c
 
 OS?=$(shell [ -e "/etc/os-release" ] && grep ^NAME=".*" /etc/os-release)
 ifeq ($(OS),)

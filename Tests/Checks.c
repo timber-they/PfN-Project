@@ -5,6 +5,7 @@
 #include "Check_correction.h"
 #include "Check_Basic_Sampling.h"
 #include "Check_Median.h"
+#include "Check_ConfidenceIntervals.h"
 
 int main (void)
 {
@@ -22,6 +23,8 @@ int main (void)
   tcase_add_test(tc1_1, test_basic_sampling);
   tcase_add_test(tc1_1, test_median_sorted);
   tcase_add_test(tc1_1, test_median_unsorted);
+  tcase_add_test(tc1_1, test_conf_itvl_same_values);
+  tcase_add_test(tc1_1, test_conf_itvl_negative);
 
   srunner_run_all(sr, CK_NORMAL);
   nf = srunner_ntests_failed(sr);
