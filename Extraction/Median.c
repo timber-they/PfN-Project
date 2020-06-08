@@ -1,5 +1,6 @@
 #include <stdlib.h>
-/* This can overflow? */
+#include <stdio.h>
+
 int comp_double(const void *a, const void *b)
 {
   return *((double*) a) - *((double*) b);
