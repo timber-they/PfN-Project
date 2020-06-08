@@ -19,7 +19,7 @@ jobs:
         sudo mkdir -p /var/lib/apt/lists/partial
         sudo apt-get clean
     - name: update apt
-      run: sudo apt-get update
+      run: sudo apt-get --allow-unauthenticated update
     - name: determine check version
       run: apt policy check
     - name: install check
