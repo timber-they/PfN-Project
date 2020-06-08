@@ -12,6 +12,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: update apt
+      run: sudo apt-get update
     - name: determine check version
       run: apt policy check
     - name: install check
