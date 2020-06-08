@@ -18,6 +18,12 @@ jobs:
         sudo mv /var/lib/apt/lists /tmp
         sudo mkdir -p /var/lib/apt/lists/partial
         sudo apt-get clean
+    - name: update expired keys
+      run: |
+        sudo apt-key list | \
+          grep "expired: " | \
+          sed -ne 's|pub .*/\([^ ]*\) .*|\1|gp' | \
+          xargs -n1 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys      
     - name: update apt
       run: sudo apt-get --allow-unauthenticated update
     - name: determine check version
