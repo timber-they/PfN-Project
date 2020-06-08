@@ -1,21 +1,38 @@
+#include <stdlib.h>
 #include <stdio.h>
-/* 
+/* This can overflow? */
+int comp_double(const void *a, const void *b)
+{
+  return *((double*) a) - *((double*) b);
+}
+
+/*
 the median is the middle element of a sorted array.
-If the length is even, the average of the 2 middle elements is taken.    
+If the length is even, the average of the 2 middle elements is taken.
 */
-double median(double *sorted, size_t n_elems)
+double median_sort(double *array, size_t n_elems)
 {
     if (n_elems == 0)
     {
         fprintf(stderr, "Please input an array of at least length 1");
     }
-
+    qsort(array, n_elems, sizeof *array, comp_double);
     if (n_elems % 2 == 0)
     {
-        return (sorted[(n_elems -1)/ 2] + sorted[n_elems / 2]) / 2;
+        return (array[(n_elems -1)/ 2] + array[n_elems / 2]) / 2;
     }
     else
     {
-        return sorted[n_elems / 2];
+        return array[n_elems / 2];
     }
 }
+
+
+int main(void)
+{
+  double array[4] = {1.0, 2.3, 4.5, 2.2};
+  double median = median_sort(array, 4);
+  printf("%f\n", median);
+  return EXIT_SUCCESS;
+}
+
