@@ -62,14 +62,14 @@ double * conf_itvl(double *sorted, size_t n_elems, float level)
 	return intervals;
 }
 
-int main()
-{
-	double vals[] = { 1, 4, 4, 5, 9, 10, 11, 11, 12, 14, 14, 17, 18, 19, 21, 25, 25, 25, 30, 31, 38, 40, 45, 49, 90 };
-	size_t size = sizeof vals/sizeof vals[0];
-	float level = 0.8;
+/* int main() */
+/* { */
+/* 	double vals[] = { 1, 4, 4, 5, 9, 10, 11, 11, 12, 14, 14, 17, 18, 19, 21, 25, 25, 25, 30, 31, 38, 40, 45, 49, 90 }; */
+/* 	size_t size = sizeof vals/sizeof vals[0]; */
+/* 	float level = 0.8; */
 
-	double* c;
-	c = conf_itvl(vals, size, level);
+/* 	double* c; */
+/* 	c = conf_itvl(vals, size, level); */
 
-	printf("%f of %li values lies in [%f, %f]\n", level, size, c[0], c[1]);
-}
+/* 	printf("%f of %li values lies in [%f, %f]\n", level, size, c[0], c[1]); */
+/* } */
