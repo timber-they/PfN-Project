@@ -12,6 +12,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: clean apt
+      run: sudo apt-get clean
     - name: update apt
       run: sudo apt-get update
     - name: determine check version
