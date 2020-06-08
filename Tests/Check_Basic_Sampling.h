@@ -11,6 +11,7 @@ START_TEST(test_basic_sampling)
             posArr++;
         }
     }
-    ck_assert_int_eq(posArr, posLazy);
+    ck_assert_int_eq(posArr, 494);
+    ck_assert_int_eq(posLazy, 494);
 }
 END_TEST
