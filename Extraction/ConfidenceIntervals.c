@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <math.h>
 
+#include "ConfidenceIntervals.h"
+
 // gaussConf: calculate confidence interval of some data with given standard deviation, number of values and level assuming gauss distribution
 // give: standard deviation
 // give: number of values as unsigned int
@@ -34,11 +36,11 @@ double gaussConf(double standDev, unsigned int numOfVals, float level)
     return c;
 }
 
-// conf: calculate confidence interval of given data with given level
+// conf_itvl: calculate confidence interval of given data with given level
 // give: data as sorted array of doubles
 // give: desired confidence level in (0.0, 1.0]
 // return: 2-array with minimum and maximum of confidence interval
-double * conf(double *sorted, size_t n_elems, float level)
+double * conf_itvl(double *sorted, size_t n_elems, float level)
 {
 	if (n_elems == 0)
 	{
@@ -60,14 +62,14 @@ double * conf(double *sorted, size_t n_elems, float level)
 	return intervals;
 }
 
-int main()
-{
-	double vals[] = { 1, 4, 4, 5, 9, 10, 11, 11, 12, 14, 14, 17, 18, 19, 21, 25, 25, 25, 30, 31, 38, 40, 45, 49, 90 };
-	size_t size = sizeof vals/sizeof vals[0];
-	float level = 0.8;
+/* int main() */
+/* { */
+/* 	double vals[] = { 1, 4, 4, 5, 9, 10, 11, 11, 12, 14, 14, 17, 18, 19, 21, 25, 25, 25, 30, 31, 38, 40, 45, 49, 90 }; */
+/* 	size_t size = sizeof vals/sizeof vals[0]; */
+/* 	float level = 0.8; */
 
-	double* c;
-	c = conf(vals, size, level);
+/* 	double* c; */
+/* 	c = conf_itvl(vals, size, level); */
 
-	printf("%f of %li values lies in [%f, %f]\n", level, size, c[0], c[1]);
-}
+/* 	printf("%f of %li values lies in [%f, %f]\n", level, size, c[0], c[1]); */
+/* } */

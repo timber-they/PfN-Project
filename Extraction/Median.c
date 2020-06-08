@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "Median.h"
+
 int comp_double(const void *a, const void *b)
 {
   return *((double*) a) - *((double*) b);
