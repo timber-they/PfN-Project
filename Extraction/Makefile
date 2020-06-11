@@ -10,7 +10,7 @@ all:${FILE_BASE}.x
 	${CC} ${CFLAGS} -o $@ $< ${CLIBS}
 
 README:Makefile
-	@echo "ConfidenceIntervals is implemented in ConfidenceIntervals.c > $@
+	@echo "This could be a nice readme." > $@
 
 .PHONY:clean
 clean:
