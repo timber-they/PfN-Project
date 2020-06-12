@@ -5,10 +5,8 @@
 START_TEST(test_correction)
 {
     double_with_error f1, f2;
-    f1->d = 0.9;
-    f1->err = EXIT_SUCCESS;
-    f2->d = 0.1;
-    f2->err = EXIT_SUCCESS;
+    f1 = {0.9, EXIT_SUCCESS};
+    f1 = {0.1, EXIT_SUCCESS};
     f1 = correction(f1);
     f2 = correction(f2);
     double diff1 = f1->d - 0.99, diff2 = f2->d - 0.10111111;
