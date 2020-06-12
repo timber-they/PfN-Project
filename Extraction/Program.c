@@ -6,7 +6,7 @@
 #include "Median.h"
 #include "Medium.h"
 
-/* Input a file name containing trial results data, int with number of trials
+/* Input a file name containing trial results data, size_t  number of trials
  * (should be number of lines of trial results file), int basic population size
  * and double confidence level.
  * Writes statistics into csv for gnuplot.
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
      * y-axis: n_simulations (n_infected) / N_simulations
      */
     
-    // TODO Julius check parameters for format failures
+    // Done Julius check parameters for format failures
     // check argument counter
     if (argc > 5)
     {
@@ -48,15 +48,56 @@ int main(int argc, char *argv[])
         // number of trials can only be set after reading input
     }
     
+    if (argc > 2 && sscanf(argv[2], "%zu", &number_of_trials) < 1)
+    {
+        fprintf(stderr, "Error: Could not parse argument 2: number of trials must be positive integer. Input: %s\n", argv[2]);
+        return EXIT_FAILURE;
+    }
+    if (number_of_trials < 1)
+    {
+        fprintf(stderr, "Error: Number of trials must be positive. Input: %d\n", number_of_trials);
+        return EXIT_FAILURE;
+    }
+    if (argc > 3 && sscanf(argv[3], "%u", &population_size) < 1)
+    {
+        fprintf(stderr, "Error: Could not parse argument 3: population size must be positive integer. Input: %s\n", argv[3]);
+        return EXIT_FAILURE;
+    }
+    if (population_size < 1)
+    {
+        fprintf(stderr, "Error: Population size must be positive. Input: %s\n", argv[3]);
+        return EXIT_FAILURE;
+    }
+    if (argc > 4 && sscanf(argv[4], "%f", &confidence_level) < 1)
+    {
+        fprintf(stderr, "Error: Could not parse argument 4: confidence level must be floating point number. Input: %s\n", argv[4]);
+        return EXIT_FAILURE;
+    }
+    if (confidence_level < 0 || confidence_level > 1)
+    {
+        fprintf(stderr, "Error: Confidence level must be in [0; 1]. Input: %f\n", confidence_level);
+        return EXIT_FAILURE;
+    }
+    if (scanf(argv[1], "%s") < 0 || strlen(scan(argv[1], "%s")) > 32)
+    {
+        fprintf(stderr, "Error: Could not read file name. Must be shorter than 32 chars. Input: %s\n", argv[1]);
+        return EXIT_FAILURE;
+    }
+    if (access(scanf(argv[1], "%s"), F_OK) == -1)
+    {
+        fprintf(stderr, "Error: File %s could not be read or does not exist.\n", argv[1]);
+        return EXIT_FAILURE;
+    }
     
     // TODO Julius check file for format failures
-    // TODO Julius parse start parameters
+    // Done Julius parse start parameters
+    
     // TODO Julius read trial_results from file
     
     data_median = median_sort(trial_results, number_of_trials);
     data_medium = medium(trial_results, number_of_trials);
     confidence_interval = conf_itvl (trial_results, number_of_trials,
-                                     CONFIDENCE_LEVEL);
+                                     confidence_level);
 
     for (int i = 0; i < number_of_trials; i++)
     {
