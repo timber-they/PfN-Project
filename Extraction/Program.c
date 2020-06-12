@@ -17,11 +17,37 @@ int main(int argc, char *argv[])
                  *confidence_interval;
     size_t number_of_trials;
     double data_medium, confidence_level, *relative_results, **diagram_data;
+    FILE input_data;
     
     /* diagram data: array of 2-arrays containing diagram point {x,y}
      * x-axis: n_infected (= trial_results)
      * y-axis: n_simulations (n_infected) / N_simulations
      */
+    
+    // TODO Julius check parameters for format failures
+    // check argument counter
+    if (argc > 5)
+    {
+        fprintf(stderr, "Usage: {} <file name: trial results data> ");
+        fprintf(stderr, "[int: number of trials] [int: basic population size] ");
+        fprintf(stderr, "[double: confidence level]\n");
+        fprintf(stderr, "Error: Too many arguments\n");
+        return EXIT_FAILURE;
+    }
+    
+    if (argc < 2)
+        fprintf(stderr, "Error: Too little arguments\n");
+    else if (argc < 5)
+    {
+        printf("Warning: Interpreting input as {} <file name> ");
+        printf("[number of trials = (read from input)] [basic population size");
+        printf(" = 8.2e7] [confidence level = 0.95]\n");
+        confidence_level = 0.95;
+        if (argc < 4)
+            population_size = 82000000;
+        // number of trials can only be set after reading input
+    }
+    
     
     // TODO Julius check file for format failures
     // TODO Julius parse start parameters
@@ -55,7 +81,7 @@ int main(int argc, char *argv[])
         y[i] = (double) 10/i;
     }
     // source data created
-    FILE *source;
+    FILE *source; // TODO Variables should be declared at top
     source  = fopen ("data.dat", "w+");
     for (i = 0; i < number_of_trials; i++)
     {
