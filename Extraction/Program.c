@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "CSV_Output.h"
 #include "ConfidenceIntervals.h"
 #include "Histograms.h"
@@ -39,7 +40,34 @@ int main(int argc, char *argv[])
     // TODO Hannes count trial_results to get n_simulations > extract diagram data
     // TODO Hannes accumulate histogram intervals?
     // TODO Pascal write data into gnuplot-readable (csv) file
+    
+    // adjustment for imagined number_of_trials for first version (should be removed later)
+    number_of_trials = 10;
+    // Array containing x values (infected), should be filled with real data
+    double *x = (double *) malloc (number_of_trials * sizeof(double));
+    // Array containing y values (appearance of infected), should be filled with real data
+    double *y = (double *) malloc (number_of_trials * sizeof(double));
+    // imagined data, no meaning
+    int i;
+    for (i = 0; i < number_of_trials; i++)
+    {
+        x[i] = (double) i;
+        y[i] = (double) 10/i;
+    }
+    // source data created
+    FILE *source;
+    source  = fopen ("data.dat", "w+");
+    for (i = 0; i < number_of_trials; i++)
+    {
+        fprintf(source, "%lf %lf\n", x[i], y[i]);
+    }
+    fclose(source);
+    createCSV("data.dat", "results.csv");
+    
     // TODO Pascal paint gnuplot data
+    
+    paintHistogram("data.dat");
+    remove("data.dat");
     
     return EXIT_SUCCESS;
 }
