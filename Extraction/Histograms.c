@@ -44,6 +44,5 @@ int paintHistogram(char *source)
         // Send commands to gnuplot one by one.
         fprintf(gnuplotPipe, "%s \n", commandsForGnuplot[i]);
     }
-    free(plotCommand);
     return 0;
 }
