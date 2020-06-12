@@ -8,7 +8,7 @@
 int paintHistogram(char *source)
 {
     int i, numCommands = 8;
-    char *plotCommand = (char *) malloc(50 * sizeof(char));
+    char plotCommand[50];
     if (strlen(source) > 32)
     {
         // filename is too long
@@ -37,13 +37,12 @@ int paintHistogram(char *source)
     if (gnuplotPipe == NULL)
     {
         fprintf(stderr, "Histograms: Unable to create gnuplot pipe to paint histogram\n");
-        free(plotCommand);
         return 1;
     }
     for (i=0; i < numCommands; i++)
     {
-    // Send commands to gnuplot one by one.
-    fprintf(gnuplotPipe, "%s \n", commandsForGnuplot[i]);
+        // Send commands to gnuplot one by one.
+        fprintf(gnuplotPipe, "%s \n", commandsForGnuplot[i]);
     }
     free(plotCommand);
     return 0;
