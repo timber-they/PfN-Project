@@ -5,9 +5,9 @@
 
 int main(int argc, char *argv[])
 {
-    double p;
-    unsigned int populationNumber, sampleNumber;
-    int s;
+    double p = 0;
+    unsigned int populationNumber = 0, sampleNumber = 0;
+    int s = 96661;
     LazySource source;
     unsigned int positives;
     double observedPositives;
@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     source = getLazySource(populationNumber, p);
     for (int i = 0; i < sampleNumber; i++)
     {
-        if (takeElement(source))
+        if (takeElement(&source))
         {
             positives++;
         }
