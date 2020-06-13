@@ -36,15 +36,11 @@ int main(int argc, char *argv[])
         }
     }
 
-    printf("1: %ud\n", positives);
-
     observedPositives = (positives * SENSITIVITY);
-    printf("2: %lf\n", observedPositives);
     correctedPercentage = correction(observedPositives / sampleNumber);
-    printf("3: %lf\n", correctedPercentage);
     correctedPositives = correctedPercentage * sampleNumber;
 
-    printf("Sample result: %ud\n", correctedPositives);
+    printf("Sample result: %u\n", correctedPositives);
 
     return 0;
 }
