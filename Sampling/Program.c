@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
                  || sscanf(argv[3], "%ud", &sampleNumber) != 1
                  || (argc == 5 && sscanf(argv[4], "%d", &seed) != 1))
     {
-        fprintf(stderr, "Usage: %s <p> <N> <n> [<s>]", argv[0]);
+        fprintf(stderr, "Usage: %s <p> <N> <n> [<s>]\n", argv[0]);
         return 1;
     }    
 
