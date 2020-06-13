@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     unsigned int populationNumber = 0, sampleNumber = 0;
     int s = 96661;
     LazySource source;
-    unsigned int positives;
+    unsigned int positives = 0;
     double observedPositives;
     double correctedPercentage;
     unsigned int correctedPositives;
