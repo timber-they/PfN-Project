@@ -53,7 +53,7 @@ LazySource getLazySource(int size, double probability, int seed)
         }        
     }
 
-    printf("L1 %ul / %ul", res.Positives, res.Negatives);
+    printf("L1 %lu / %lu", res.Positives, res.Negatives);
 
     return res;
 }
