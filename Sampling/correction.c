@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "correction.h"
 
 // applies correction to lessen bias
 double correction(double f)
