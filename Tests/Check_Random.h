@@ -1,4 +1,4 @@
-#include "../Sampling/random.h"
+#include "../Sampling/Random.h"
  
 START_TEST(test_random)
 {
