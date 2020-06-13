@@ -2,5 +2,5 @@
 #define Random
 
 float getRandomNumber();
-void initRandom(int seed)
+void initRandom(int seed);
 #endif
