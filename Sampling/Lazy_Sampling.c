@@ -21,7 +21,7 @@ int takeElement(LazySource *source, int seed)
     return positive;
 }
 
-int getElement(LazySource *source)
+int getElement(LazySource *source, int seed)
 {
     if (source->Positives == 0 && source->Negatives == 0) 
     {
@@ -35,7 +35,7 @@ int getElement(LazySource *source)
     return randomNumber < probability;
 }
 
-LazySource getLazySource(int size, double probability)
+LazySource getLazySource(int size, double probability, int seed)
 {
     LazySource res;
     res.Positives = 0;
