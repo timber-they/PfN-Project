@@ -25,9 +25,12 @@ int main(int argc, char *argv[])
         return 1;
     }    
 
+    // Sampling_Init
     initRandom(seed);
 
     source = getLazySource(populationNumber, p);
+
+    // Sampling_Ready -> Sampling_Progressing
     for (int i = 0; i < sampleNumber; i++)
     {
         if (takeElement(&source))
@@ -40,6 +43,7 @@ int main(int argc, char *argv[])
     correctedPercentage = correction(observedPositives / sampleNumber);
     correctedPositives = correctedPercentage * sampleNumber;
 
+    // Sampling_Done
     printf("Sample result: %u\n", correctedPositives);
 
     return 0;
