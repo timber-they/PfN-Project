@@ -6,7 +6,7 @@ DEPENDENCIES=Lazy_Sampling.c correction.c Random.c
 all:${FILE_BASE}.x
 
 %.x:%.c
-	${CC} ${CFLAGS} -o $@ $< Lazy_Sampling.c ${DEPENDENCIES}
+	${CC} ${CFLAGS} -o $@ $< ${DEPENDENCIES}
 
 README:Makefile
 	@echo "Lazy Sampling is implemented in Lazy_Sampling.c" > $@
