@@ -1,5 +1,6 @@
 #ifndef Random
 #define Random
 
-float getRandomNumber(int temp_seed);
+float getRandomNumber();
+void initRandom(int seed)
 #endif

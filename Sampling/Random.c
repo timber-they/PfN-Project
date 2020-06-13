@@ -2,7 +2,12 @@
 #include <stdio.h>	
 #include <time.h>
 
-float getRandomNumber(int temp_seed)
+float getRandomNumber()
+{
+    return(drand48());
+}
+
+void initRandom(int seed)
 {
 	int seed = 100;
 	if(temp_seed > 0)
@@ -15,7 +20,6 @@ float getRandomNumber(int temp_seed)
     	exit(EXIT_FAILURE);
     }
     srand48(seed); // Seed Generation based on seed variable
-    return(drand48());
 }
 
 /*

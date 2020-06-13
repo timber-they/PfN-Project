@@ -2,7 +2,7 @@
 #include "Lazy_Sampling.h"
 #include "Random.h"
 
-int takeElement(LazySource *source, int seed)
+int takeElement(LazySource *source)
 {
     if (source->Positives == 0 && source->Negatives == 0) 
     {
@@ -12,7 +12,7 @@ int takeElement(LazySource *source, int seed)
 
     double probability = (double) source->Positives / 
         (double) (source->Positives + source->Negatives);
-    double randomNumber = getRandomNumber(seed);
+    double randomNumber = getRandomNumber();
     short positive = randomNumber < probability;
     if (positive)
         source->Positives--;
@@ -21,7 +21,7 @@ int takeElement(LazySource *source, int seed)
     return positive;
 }
 
-int getElement(LazySource *source, int seed)
+int getElement(LazySource *source)
 {
     if (source->Positives == 0 && source->Negatives == 0) 
     {
@@ -31,18 +31,18 @@ int getElement(LazySource *source, int seed)
 
     double probability = (double) source->Positives / 
         (double) (source->Positives + source->Negatives);
-    double randomNumber = getRandomNumber(seed);
+    double randomNumber = getRandomNumber();
     return randomNumber < probability;
 }
 
-LazySource getLazySource(int size, double probability, int seed)
+LazySource getLazySource(int size, double probability)
 {
     LazySource res;
     res.Positives = 0;
     res.Negatives = 0;
     for (int i = 0; i < size; i++)
     {
-        double randomNumber = getRandomNumber(seed);
+        double randomNumber = getRandomNumber();
         if (randomNumber < probability)
         {
             res.Positives++;

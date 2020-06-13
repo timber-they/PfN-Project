@@ -1,5 +1,6 @@
 #include "Lazy_Sampling.h"
 #include "correction.h"
+#include "Random.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -24,10 +25,12 @@ int main(int argc, char *argv[])
         return 1;
     }    
 
-    source = getLazySource(populationNumber, p, seed);
+    initRandom(seed);
+
+    source = getLazySource(populationNumber, p);
     for (int i = 0; i < sampleNumber; i++)
     {
-        if (takeElement(&source, seed))
+        if (takeElement(&source))
         {
             positives++;
         }

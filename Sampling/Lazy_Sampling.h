@@ -9,10 +9,10 @@ typedef struct {
     unsigned long Negatives;
 } LazySource;
 
-int takeElement(LazySource *source, int seed);
+int takeElement(LazySource *source);
 
-int getElement(LazySource *source, int seed);
+int getElement(LazySource *source);
 
-LazySource getLazySource(int size, double probability, int seed);
+LazySource getLazySource(int size, double probability);
 
 #endif
