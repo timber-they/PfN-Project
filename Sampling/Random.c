@@ -7,7 +7,7 @@ float getRandomNumber()
     return(drand48());
 }
 
-void initRandom(int seed)
+void initRandom(int temp_seed)
 {
 	int seed = 100;
 	if(temp_seed > 0)
