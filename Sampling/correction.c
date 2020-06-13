@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define SPECIFICITY 0.991
-#define SENSITIVITY 0.909
-
 // applies correction to lessen bias
 double correction(double f)
 {

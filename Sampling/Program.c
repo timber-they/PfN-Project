@@ -1,35 +1,43 @@
 #include "Lazy_Sampling.h"
+#include "correction.h"
+#include <stdlib.h>
 #include <stdio.h>
 
 int main(int argc, char *argv[])
 {
-    int size;
-    double probability;
-    switch (argc)
+    double p;
+    unsigned int populationNumber, sampleNumber;
+    int s;
+    LazySource source;
+    unsigned int positives;
+    double observedPositives;
+    double correctedPercentage;
+    unsigned int correctedPositives;
+
+    if (argc < 4 || argc > 5
+                 || sscanf(argv[1], "%lf", &p) != 1
+                 || sscanf(argv[2], "%ud", &populationNumber) != 1
+                 || sscanf(argv[3], "%ud", &sampleNumber) != 1
+                 || (argc == 5 && sscanf(argv[4], "%d", &s) != 1))
     {
-       case 1:
-           size = 100;
-           probability = 0.5;
-           break;
-       case 3:
-           if (sscanf(argv[1], "%d", &size) == 1 &&
-                   sscanf(argv[2], "%lf", &probability) == 1)
-           {
-               break;
-           }
-           fprintf(stderr, "Couldn't parse entries %s %s\n", argv[1], argv[2]);
-           return 1;
-       default:
-           fprintf(stderr, "Invalid entry\n");
-           return 1;
+        fprintf(stderr, "Usage: %s <p> <N> <n> [<s>]", argv[0]);
+        return 1;
+    }    
+
+    source = getLazySource(populationNumber, p);
+    for (int i = 0; i < sampleNumber; i++)
+    {
+        if (takeElement(source))
+        {
+            positives++;
+        }
     }
 
-    LazySource source = getLazySource(size, probability);
-    for (int i = 0; i < size; i++)
-    {
-        printf("Pick %d got %d\n", i, takeElement(&source));
-    }
+    observedPositives = (positives * SENSITIVITY);
+    correctedPercentage = correction(observedPositives / sampleNumber);
+    correctedPositives = correctedPercentage * sampleNumber;
+
+    printf("Sample result: %ud", correctedPositives);
 
     return 0;
 }
-
