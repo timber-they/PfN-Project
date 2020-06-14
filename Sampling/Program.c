@@ -23,7 +23,18 @@ int main(int argc, char *argv[])
     {
         fprintf(stderr, "Usage: %s <p> <N> <n> [<s>]\n", argv[0]);
         return 1;
-    }    
+    }
+    
+    if (sampleNumber > populationNumber)
+    {
+        fprintf(stderr, "Samplesize can't be larger than Populationsize\n");
+        return 1;
+    }
+    if (p < 0 || p > 1)
+    {
+        fprintf(stderr, "Probability can't be less than 0 or more than 1\n");
+        return 1;
+    }
 
     // Sampling_Init
     initRandom(seed);
