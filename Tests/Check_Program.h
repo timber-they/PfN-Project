@@ -14,7 +14,7 @@ START_TEST(test_program)
     char *resultChar = malloc(sizeof(char) * 10);
     int result = -1;
     
-    system("cd .. && cd Sampling && ./Program.x "PARAMETERS);
+    system("cd .. && cd Sampling && make && ./Program.x "PARAMETERS);
     
     resultFile = fopen(resultFileName, "r");
     if(resultFile == NULL)
