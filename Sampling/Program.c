@@ -14,6 +14,9 @@ int main(int argc, char *argv[])
     double observedPositives;
     double correctedPercentage;
     unsigned int correctedPositives;
+    
+    const char *resultFileName = "sampleResult.txt";
+    FILE *resultFile = NULL;
 
     if (argc < 4 || argc > 5
                  || sscanf(argv[1], "%lf", &p) != 1
@@ -45,6 +48,13 @@ int main(int argc, char *argv[])
 
     // Sampling_Done
     printf("Sample result: %u\n", correctedPositives);
-
+    resultFile = fopen(resultFileName, "w");
+    if(resultFile == NULL)
+    {
+        fprintf(stderr, "Could not open file");
+        return 1;
+    }
+        fprintf(resultFile, "%u\n", correctedPositives);
+        fclose(resultFile);
     return 0;
 }
