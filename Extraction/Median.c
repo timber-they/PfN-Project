@@ -19,7 +19,7 @@ double get_median(int *sorted, size_t n_elems)
     }
     if (n_elems % 2 == 0)
     {
-        return (sorted[(n_elems -1)/ 2] + sorted[n_elems / 2]) / 2;
+      return ((double) sorted[(n_elems -1)/ 2] + (double) sorted[n_elems / 2]) / 2;
     }
     else
     {
