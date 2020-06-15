@@ -44,7 +44,7 @@ jobs:
     - name: install check
       run: brew install check
     - name: make tests
-      run: (cd Tests && make &&)
+      run: (cd Tests && make)
     - name: run tests
       run: (cd Tests && ./Checks.x)
     - name: make Sampling
