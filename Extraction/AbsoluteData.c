@@ -1,34 +1,46 @@
 #include "AbsoluteData.h"
+#include <stdlib.h>
 
-// get: trial_results: unsigned int array with number of infected people per simulation
-// get: n_simulations: size_t length of trial_results
-// get: target: unsigned int array with length trial_results
-// get: min, max: unsigned int pointers to save minimum and maximum number of infected people
-// give: array with the number of occurences of each number of infected people
-// give: fill min, max with highest and lowest non 0 entry
-void absolute_frequencies(unsigned int* trial_results,
-                          size_t n_simulations,
-                          unsigned int* target,
-                          unsigned int* min,
-                          unsigned int* max,
-                          )
-{
-  unsigned int max_infected = get_max_value(trial_results, n_simulations);
-  unsigned int* temp = malloc((sizeof *temp) * max_infected);
-  free(temp);
-}
 
-unsigned int get_max_value(unsigned int* array, size_t n_elems)
-{
-  unsigned int max_value;
-  for(unsigned int i = 0; i < n_elems; i++)
-    {
-      max_value = max(max_value, trial_results[i]);
-    }
+#define TYPE unsigned int
+
+TYPE max(TYPE a, TYPE b) { return a > b ? a : b; }
+
+TYPE array_max_value(TYPE *array, size_t n_elems) {
+  TYPE max_value;
+  for (TYPE i = 0; i < n_elems; i++) {
+    max_value = max(max_value, array[i]);
+  }
   return max_value;
 }
 
-unsigned int max(unsigned int a, unsigned int b)
+/* get: trial_results: TYPE array
+   with number of infected people per simulation
+
+   get: n_simulations: size_t length of
+   trial_results get: target: TYPE array
+   with length trial_results get: min, max:
+   TYPE pointers to save minimum and
+   maximum number of infected people
+
+   give: array with the number of occurences of
+   each number of infected people give: fill min,
+   max with highest and lowest non 0 entry
+*/
+
+// TODO useful trimming could be applied here
+// so the returned array is not full of zeros
+void absolute_frequencies(TYPE *trial_results, size_t n_simulations,
+                          TYPE *target, size_t target_length
+                          /* TYPE *min, */
+                          /* TYPE *max */
+    )
 {
-  return a > b ? a : b;
+    size_t max_infected = target_length;
+    TYPE n_infected;
+    for (TYPE i = 0; n_simulations; i++) {
+        n_infected = trial_results[i];
+        target[n_infected]++;
+    }
 }
+
