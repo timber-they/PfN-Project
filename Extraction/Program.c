@@ -18,12 +18,12 @@ int main(int argc, char *argv[])
     size_t number_of_trials;
     double data_medium, confidence_level, *relative_results, **diagram_data;
     FILE input_data;
-    
+
     /* diagram data: array of 2-arrays containing diagram point {x,y}
      * x-axis: n_infected (= trial_results)
      * y-axis: n_simulations (n_infected) / N_simulations
      */
-    
+
     // Done Julius check parameters for format failures
     // check argument counter
     if (argc > 5)
@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
         fprintf(stderr, "Error: Too many arguments\n");
         return EXIT_FAILURE;
     }
-    
+
     if (argc < 2)
         fprintf(stderr, "Error: Too little arguments\n");
     else if (argc < 5)
@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
             population_size = 82000000;
         // number of trials can only be set after reading input
     }
-    
+
     if (argc > 2 && sscanf(argv[2], "%zu", &number_of_trials) < 1)
     {
         fprintf(stderr, "Error: Could not parse argument 2: number of trials must be positive integer. Input: %s\n", argv[2]);
@@ -88,12 +88,12 @@ int main(int argc, char *argv[])
         fprintf(stderr, "Error: File %s could not be read or does not exist.\n", argv[1]);
         return EXIT_FAILURE;
     }
-    
+
     // TODO Julius check file for format failures
     // Done Julius parse start parameters
-    
+
     // TODO Julius read trial_results from file
-    
+
     data_median = median_sort(trial_results, number_of_trials);
     data_medium = medium(trial_results, number_of_trials);
     confidence_interval = conf_itvl (trial_results, number_of_trials,
@@ -103,11 +103,11 @@ int main(int argc, char *argv[])
     {
         relative_results[i] = (double) trial_results[i] / population_size;
     }
-    
+
     // TODO Hannes count trial_results to get n_simulations > extract diagram data
     // TODO Hannes accumulate histogram intervals?
     // TODO Pascal write data into gnuplot-readable (csv) file
-    
+
     // adjustment for imagined number_of_trials for first version (should be removed later)
     number_of_trials = 10;
     // Array containing x values (infected), should be filled with real data
@@ -132,9 +132,9 @@ int main(int argc, char *argv[])
     }
     fclose(source);
     createCSV("data.dat", "results.csv");
-    
+
     // TODO Pascal paint gnuplot data
-    
+
     paintHistogram("data.dat");
     remove("data.dat");
     free(x);
