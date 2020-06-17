@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define PARAMETERS "0.4 1000000 10000"
-#define PROPABILITY 0.4
+#define PARAMETERS "0.3 1000000 10000"
+#define PROPABILITY 0.3
 #define SAMPLESIZE 10000
 
 

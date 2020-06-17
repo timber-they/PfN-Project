@@ -11,7 +11,6 @@ int main(int argc, char *argv[])
     int seed = 96661;
     LazySource source;
     unsigned int positives = 0;
-    double observedPositives;
     double correctedPercentage;
     unsigned int correctedPositives;
     
@@ -49,12 +48,21 @@ int main(int argc, char *argv[])
     {
         if (takeElement(&source))
         {
-            positives++;
+            if (getWithProbability(SENSITIVITY))
+            {
+                positives++;
+            }
+        }
+        else
+        {
+            if (getWithProbability(1 - SPECIFICITY))
+            {
+                positives++;
+            }
         }
     }
 
-    observedPositives = (positives * SENSITIVITY);
-    correctedPercentage = correction(observedPositives / sampleNumber);
+    correctedPercentage = correction((double) positives / sampleNumber);
     correctedPositives = correctedPercentage * sampleNumber;
 
     // Sampling_Done

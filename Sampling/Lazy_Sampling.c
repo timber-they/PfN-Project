@@ -12,8 +12,7 @@ int takeElement(LazySource *source)
 
     double probability = (double) source->Positives / 
         (double) (source->Positives + source->Negatives);
-    double randomNumber = getRandomNumber();
-    short positive = randomNumber < probability;
+    short positive = getWithProbability(probability);
     if (positive)
         source->Positives--;
     else
@@ -31,8 +30,7 @@ int getElement(LazySource *source)
 
     double probability = (double) source->Positives / 
         (double) (source->Positives + source->Negatives);
-    double randomNumber = getRandomNumber();
-    return randomNumber < probability;
+    return getWithProbability(probability);
 }
 
 LazySource getLazySource(int size, double probability)
@@ -42,8 +40,7 @@ LazySource getLazySource(int size, double probability)
     res.Negatives = 0;
     for (int i = 0; i < size; i++)
     {
-        double randomNumber = getRandomNumber();
-        if (randomNumber < probability)
+        if (getWithProbability(probability))
         {
             res.Positives++;
         }

@@ -22,6 +22,12 @@ void initRandom(int temp_seed)
     srand48(seed); // Seed Generation based on seed variable
 }
 
+// TODO: Unit test
+int getWithProbability(float probability)
+{
+    return getRandomNumber() < probability;
+}
+
 /*
 int main(int argc, char *argv[])
 {
