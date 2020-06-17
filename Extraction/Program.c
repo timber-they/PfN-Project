@@ -124,6 +124,8 @@ int main(int argc, char *argv[])
     // source data created
     FILE *source; // TODO Variables should be declared at top
     source  = fopen ("data.dat", "w+");
+    if (source == NULL)
+        return EXIT_FAILURE;
     for (i = 0; i < number_of_trials; i++)
     {
         fprintf(source, "%lf %lf\n", x[i], y[i]);
@@ -135,7 +137,8 @@ int main(int argc, char *argv[])
     
     paintHistogram("data.dat");
     remove("data.dat");
-    
+    free(x);
+    free(y);
     return EXIT_SUCCESS;
 }
 
