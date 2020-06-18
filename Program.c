@@ -78,7 +78,7 @@ int main (int argc, char *argv[])
 
     // Extraction
     
-    strcpy(trial_results_name, "irgendeine.datei");
+    strcpy(trial_results_name, "sampleResult.tsv");
     confidence_level = 0.90;
 
     sprintf(extration_call, "cd Extraction && make && ./Program.x"
