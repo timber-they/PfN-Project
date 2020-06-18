@@ -15,10 +15,10 @@
  */
 int main(int argc, char *argv[])
 {
-    unsigned int *trial_results, population_size, data_median,
+    unsigned int *trial_results = NULL, population_size, data_median,
                  *confidence_interval, line = 0;
     size_t number_of_trials;
-    double data_medium, confidence_level, *relative_results, **diagram_data;
+    double data_medium, confidence_level, *relative_results = NULL, **diagram_data;
     FILE * input_data;
 
     /* diagram data: array of 2-arrays containing diagram point {x,y}
