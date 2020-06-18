@@ -16,7 +16,7 @@ void initRandom(int temp_seed)
     }
     else
     {
-    	fprintf(stderr, "%s: The Seed has to be postive! \nseed: %d \n",__FILE__, seed );
+    	fprintf(stderr, "%s: The Seed has to be postive! \nseed: %d \n",__FILE__, seed);
     	exit(EXIT_FAILURE);
     }
     srand48(seed); // Seed Generation based on seed variable
