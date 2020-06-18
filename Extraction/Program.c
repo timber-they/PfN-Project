@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <unistd.h>
 #include "CSV_Output.h"
 #include "ConfidenceIntervals.h"
 #include "Histograms.h"
@@ -14,10 +16,10 @@
 int main(int argc, char *argv[])
 {
     unsigned int *trial_results, population_size, data_median,
-                 *confidence_interval;
+                 *confidence_interval, line = 0;
     size_t number_of_trials;
     double data_medium, confidence_level, *relative_results, **diagram_data;
-    FILE input_data;
+    FILE * input_data;
 
     /* diagram data: array of 2-arrays containing diagram point {x,y}
      * x-axis: n_infected (= trial_results)
@@ -45,7 +47,12 @@ int main(int argc, char *argv[])
         confidence_level = 0.95;
         if (argc < 4)
             population_size = 82000000;
-        // number of trials can only be set after reading input
+        if (argc < 3)
+        {
+            number_of_trials = 1; // bad guessing
+            trial_results = (unsigned int *) malloc (1000 * sizeof(unsigned int));
+            relative_results = (double *) malloc (1000 * sizeof(double));
+        }
     }
 
     if (argc > 2 && sscanf(argv[2], "%zu", &number_of_trials) < 1)
@@ -55,8 +62,13 @@ int main(int argc, char *argv[])
     }
     if (number_of_trials < 1)
     {
-        fprintf(stderr, "Error: Number of trials must be positive. Input: %d\n", number_of_trials);
+        fprintf(stderr, "Error: Number of trials must be positive. Input: %zu\n", number_of_trials);
         return EXIT_FAILURE;
+    }
+    else if (number_of_trials > 1)
+    {
+        trial_results = (unsigned int *) malloc (number_of_trials * sizeof(unsigned int));
+        relative_results = (double *) malloc (number_of_trials * sizeof(double));
     }
     if (argc > 3 && sscanf(argv[3], "%u", &population_size) < 1)
     {
@@ -68,7 +80,7 @@ int main(int argc, char *argv[])
         fprintf(stderr, "Error: Population size must be positive. Input: %s\n", argv[3]);
         return EXIT_FAILURE;
     }
-    if (argc > 4 && sscanf(argv[4], "%f", &confidence_level) < 1)
+    if (argc > 4 && sscanf(argv[4], "%lf", &confidence_level) < 1)
     {
         fprintf(stderr, "Error: Could not parse argument 4: confidence level must be floating point number. Input: %s\n", argv[4]);
         return EXIT_FAILURE;
@@ -78,21 +90,34 @@ int main(int argc, char *argv[])
         fprintf(stderr, "Error: Confidence level must be in [0; 1]. Input: %f\n", confidence_level);
         return EXIT_FAILURE;
     }
-    if (scanf(argv[1], "%s") < 0 || strlen(scan(argv[1], "%s")) > 32)
+    if (strlen(argv[1]) > 32)
     {
         fprintf(stderr, "Error: Could not read file name. Must be shorter than 32 chars. Input: %s\n", argv[1]);
         return EXIT_FAILURE;
     }
-    if (access(scanf(argv[1], "%s"), F_OK) == -1)
+    if (access(argv[1], F_OK) == -1)
     {
         fprintf(stderr, "Error: File %s could not be read or does not exist.\n", argv[1]);
         return EXIT_FAILURE;
     }
+    
+    input_data = fopen(argv[1], "r");
+    
+    if (input_data == NULL)
+        return EXIT_FAILURE;
+    while (fscanf(input_data, "%u\n", &trial_results[line]) != EOF)
+        line ++;
+    fclose(input_data);
+    
+    if (number_of_trials == 1)
+        number_of_trials = line;
+    if (line != number_of_trials)
+        fprintf(stderr, "Warning: Given number of trials does not correspond to received data set.");
 
-    // TODO Julius check file for format failures
+    // Done Julius check file for format failures (done by fscanf)
     // Done Julius parse start parameters
 
-    // TODO Julius read trial_results from file
+    // Done Julius read trial_results from file
 
     data_median = median_sort(trial_results, number_of_trials);
     data_medium = medium(trial_results, number_of_trials);
@@ -115,7 +140,7 @@ int main(int argc, char *argv[])
     // Array containing y values (appearance of infected), should be filled with real data
     double *y = (double *) malloc (number_of_trials * sizeof(double));
     // imagined data, no meaning
-    int i;
+    int i; // TODO Variables should be declred at top
     for (i = 0; i < number_of_trials; i++)
     {
         x[i] = (double) i;
