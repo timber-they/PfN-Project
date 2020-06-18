@@ -2,6 +2,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+
+
 /* retunrs an array with random booleans */
 bool *getSampleArray(int size, double prob, int seed) {
     bool *arr = malloc(size * sizeof(bool));
