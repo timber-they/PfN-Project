@@ -1,10 +1,13 @@
 #include "AbsoluteData.h"
 #include <stdlib.h>
+#include <assert.h>
 
 TYPE max(TYPE a, TYPE b) { return a > b ? a : b; }
 
-// TODO add check if array is NULL or empty
 TYPE array_max_value(TYPE *array, size_t n_elems) {
+  assert(array != NULL);
+  assert(n_elems > 0);
+
   TYPE max_value = 0;
   for (TYPE i = 0; i < n_elems; i++) {
     max_value = max(max_value, array[i]);

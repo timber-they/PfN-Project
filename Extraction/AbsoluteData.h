@@ -4,6 +4,7 @@
 #include <stddef.h>
 
 #define TYPE unsigned int
+
 void absolute_frequencies(TYPE *trial_results, size_t n_simulations,
                           TYPE *target
                           // , size_t target_length
