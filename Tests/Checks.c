@@ -8,32 +8,34 @@
 #include "Check_Medium.h"
 #include "Check_ConfidenceIntervals.h"
 #include "Check_AbsoluteData.h"
+#include "Check_RelativeData.h"
 
 int main (void)
 {
-  Suite *s1 = suite_create("Core");
-  TCase *tc1_1 = tcase_create("Core");
-  SRunner *sr = srunner_create(s1);
-  int nf;
+    Suite *s1 = suite_create("Core");
+    TCase *tc1_1 = tcase_create("Core");
+    SRunner *sr = srunner_create(s1);
+    int nf;
 
-  suite_add_tcase(s1, tc1_1);
-  tcase_add_test(tc1_1, test_create_source_non_empty);
-  tcase_add_test(tc1_1, test_take_well_distributed);
-  tcase_add_test(tc1_1, test_painting_errors);
-  tcase_add_test(tc1_1, test_random);
-  tcase_add_test(tc1_1, test_correction);
-  tcase_add_test(tc1_1, test_basic_sampling);
-  tcase_add_test(tc1_1, test_median_sorted);
-  tcase_add_test(tc1_1, test_median_unsorted);
-  tcase_add_test(tc1_1, test_medium);
-  tcase_add_test(tc1_1, test_conf_itvl_same_values);
-  tcase_add_test(tc1_1, test_conf_itvl_negative);
-  tcase_add_test(tc1_1, test_array_max_value);
-  tcase_add_test(tc1_1, test_absolute_frequencies_positive);
+    suite_add_tcase(s1, tc1_1);
+    tcase_add_test(tc1_1, test_create_source_non_empty);
+    tcase_add_test(tc1_1, test_take_well_distributed);
+    tcase_add_test(tc1_1, test_painting_errors);
+    tcase_add_test(tc1_1, test_random);
+    tcase_add_test(tc1_1, test_correction);
+    tcase_add_test(tc1_1, test_basic_sampling);
+    tcase_add_test(tc1_1, test_median_sorted);
+    tcase_add_test(tc1_1, test_median_unsorted);
+    tcase_add_test(tc1_1, test_medium);
+    tcase_add_test(tc1_1, test_conf_itvl_same_values);
+    tcase_add_test(tc1_1, test_conf_itvl_negative);
+    tcase_add_test(tc1_1, test_array_max_value);
+    tcase_add_test(tc1_1, test_absolute_frequencies_positive);
+    tcase_add_test(tc1_1, test_bucket_indices_pos);
+    tcase_add_test(tc1_1, test_percentage_of_trials);
+    srunner_run_all(sr, CK_NORMAL);
+    nf = srunner_ntests_failed(sr);
+    srunner_free(sr);
 
-  srunner_run_all(sr, CK_NORMAL);
-  nf = srunner_ntests_failed(sr);
-  srunner_free(sr);
-
-  return nf == 0 ? 0 : 1;
+    return nf == 0 ? 0 : 1;
 }
