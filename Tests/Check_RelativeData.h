@@ -49,5 +49,7 @@ START_TEST(test_percentage_of_trials) {
     for (size_t i = 1; i < n_buckets - 2; ++i) {
         ck_assert(pc_per_bucket[i] == 0);
     }
+    free(pc_per_bucket);
+    free(indices);
 }
 END_TEST
