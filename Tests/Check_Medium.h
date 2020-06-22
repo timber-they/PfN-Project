@@ -15,7 +15,7 @@ START_TEST(test_medium)
             sample[j] = sample[j-1];
         }
         sample[0]=temp;
-        ck_assert(medium(sample,len)==med);
+        ck_assert(get_medium(sample,len)==med);
     }
 }
 END_TEST

@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-double medium(double* sample, size_t n_elems)
+double get_medium(double* sample, size_t n_elems)
 {
     int i;
     double sum=0, medium;

@@ -25,7 +25,6 @@ int main (void)
     tcase_add_test(tc1_1, test_correction);
     tcase_add_test(tc1_1, test_basic_sampling);
     tcase_add_test(tc1_1, test_median_sorted);
-    tcase_add_test(tc1_1, test_median_unsorted);
     tcase_add_test(tc1_1, test_medium);
     tcase_add_test(tc1_1, test_conf_itvl_same_values);
     tcase_add_test(tc1_1, test_conf_itvl_negative);
