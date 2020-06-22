@@ -43,7 +43,7 @@ void absolute_frequencies(TYPE *trial_results, size_t n_simulations,
 {
     /* size_t max_infected = target_length; */
     TYPE n_infected;
-    for (TYPE i = 0; i < n_simulations; i++) {
+   for (TYPE i = 0; i < n_simulations; i++) {
         n_infected = trial_results[i];
         target[n_infected]++;
     }
