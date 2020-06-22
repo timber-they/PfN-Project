@@ -1,12 +1,15 @@
+#include "AbsoluteData.h"
 #include "CSV_Output.h"
 #include "ConfidenceIntervals.h"
 #include "Histograms.h"
 #include "Median.h"
 #include "Medium.h"
+#include "RelativeData.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
 
 /* Input a file name containing trial results data, size_t  number of trials
  * (should be number of lines of trial results file), int basic population size
@@ -127,10 +130,11 @@ int main(int argc, char *argv[]) {
 
     // Done Julius read trial_results from file
 
-    data_median = median_sort(trial_results, number_of_trials);
-    data_medium = medium(trial_results, number_of_trials);
+    median = get_median(trial_results, number_of_trials);
+    medium = get_medium(trial_results, number_of_trials);
+    // TODO conf_itvl expects an array of doubles - Hannes
     confidence_interval =
-        conf_itvl(trial_results, number_of_trials, confidence_level);
+        conf_itvl(trial_results, number_of_trials, confidence_level); 
 
     for (int i = 0; i < number_of_trials; i++) {
         relative_results[i] = (double)trial_results[i] / population_size;
@@ -140,10 +144,40 @@ int main(int argc, char *argv[]) {
     // Done Hannes accumulate histogram intervals?
     // TODO Pascal write data into gnuplot-readable (csv) file
 
-    // adjustment for imagined number_of_trials for first version (should be
-    // removed later)
-    number_of_trials = 10;
+    // Actual data for the histogram - For absolute and relative data histograms
 
+    unsigned int max_infected = array_max_value(trial_results, number_of_trials);
+
+    // Actual data for the histogram - Absolute values
+
+    unsigned int *x_a = (unsigned int *)malloc((max_infected + 1) * sizeof *x_a);
+    unsigned int *y_a =
+        (unsigned int *)malloc((max_infected + 1) * sizeof *x_a);
+
+    for (size_t i = 0; i <= max_infected; ++i) {
+      x_a[i] = i;
+    }
+    absolute_frequencies(trial_results, number_of_trials, y_a);
+
+    // Actual data for the histogram - Relative values
+
+    // TODO Where should this value be determined?
+    // and what happens, when N_BUCKETS > number_of_trials?
+    size_t n_buckets = 10;
+    double *x_r = (double *)malloc(n_buckets * sizeof *x_a);
+    double *y_r = (double *)malloc(n_buckets * sizeof *x_a);
+    size_t *buckets = (size_t *)malloc(n_buckets * sizeof *x_a);
+
+    bucket_indices(buckets, population_size, n_buckets);
+    percentage_of_trials_in_bucket(y_r, buckets, n_buckets, y_a, population_size);
+    for (size_t i = 0; i < n_buckets; ++i) {
+        x_r[i] = (double) (population_size / n_buckets) * i;
+    }
+
+    // adjustment for imagined number_of_trials for first version (should be
+    // removed later) (TODO)
+    number_of_trials = 10;
+    
     // Array containing x values (infected), should be filled with real data
     double *x = (double *)malloc(number_of_trials * sizeof(double));
     // Array containing y values (appearance of infected), should be filled with
