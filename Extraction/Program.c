@@ -20,8 +20,8 @@ int main(int argc, char *argv[]) {
     unsigned int *trial_results = NULL, population_size, *confidence_interval,
         line = 0;
     size_t number_of_trials;
-    double medium, median, confidence_level, *relative_results = NULL,
-        **diagram_data;
+    double medium, median, confidence_level, *relative_results = NULL;
+        /* **diagram_data; */
     FILE *input_data;
 
     /* diagram data: array of 2-arrays containing diagram point {x,y}
@@ -206,5 +206,9 @@ int main(int argc, char *argv[]) {
     remove("data.dat");
     free(x);
     free(y);
+
+    printf("%lf, %lf, %u, %u\n", median, medium, confidence_interval[0],
+    confidence_interval[1]);
+
     return EXIT_SUCCESS;
 }
