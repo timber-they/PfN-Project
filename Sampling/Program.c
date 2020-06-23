@@ -45,7 +45,8 @@ int main(int argc, char *argv[])
         sscanf(argv[i + 4 + offset], "%ud", &sampleSizes[i]);
         if (sampleSizes[i] > populationNumber)
         {
-            fprintf(stderr, "Samplesize can't be larger than Populationsize\n");
+            fprintf(stderr,
+                    "Samplesize can't be larger than Populationsize\n");
             return 1;
         }
     }
@@ -94,7 +95,8 @@ int main(int argc, char *argv[])
             }
         }
 
-        correctedPercentage = correction((double) positives / sampleSizes[sample]);
+        correctedPercentage = correction((double) positives /
+                                          sampleSizes[sample]);
         correctedPositives = correctedPercentage * sampleSizes[sample];
 
         // Sampling_Done

@@ -40,7 +40,7 @@ double gaussConf(double standDev, unsigned int numOfVals, float level)
 // give: data as sorted array of doubles
 // give: desired confidence level in (0.0, 1.0]
 // return: 2-array with minimum and maximum of confidence interval
-double * conf_itvl(double *sorted, size_t n_elems, float level)
+unsigned int *conf_itvl(unsigned int *sorted, size_t n_elems, float level)
 {
 	if (n_elems == 0)
 	{
@@ -51,10 +51,10 @@ double * conf_itvl(double *sorted, size_t n_elems, float level)
 		fprintf(stderr, "Please input level greater than 0 and 1 at maximum");
 	}
 
-	static double intervals[2];
-	int min, max;
-	max = (int) ((0.5 + level / 2) * n_elems - 1);
-	min = (int) ((0.5 - level / 2) * n_elems);
+	static unsigned int intervals[2];
+	unsigned int min, max;
+	max = (unsigned int) ((0.5 + level / 2) * n_elems - 1);
+	min = (unsigned int) ((0.5 - level / 2) * n_elems);
 
 	intervals[0] = sorted[min];
 	intervals[1] = sorted[max];
