@@ -14,12 +14,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: update PGP key
       run: curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
-    - name: add universe/multiverse
-      run: |
-        sudo add-apt-repository universe
-        sudo add-apt-repository multiverse
-    - name: update apt
-      run: sudo apt-get update
     - name: determine check version
       run: apt policy check
     - name: install check
