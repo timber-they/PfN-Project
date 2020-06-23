@@ -1,5 +1,10 @@
 #include "../Extraction/RelativeData.h"
 
+double fabs(double f)
+{
+    return f < 0 ? -f : f;
+}
+
 START_TEST(test_bucket_indices_pos) {
     size_t n_buckets = 4;
     size_t population_size = 99;
