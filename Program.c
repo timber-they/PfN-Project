@@ -47,7 +47,7 @@ int main (int argc, char *argv[])
                  || (argc > 6 && sscanf(argv[6], "%lf", &selectivity) != 1)
                  || (argc > 7 && sscanf(argv[7], "%d", &seed) != 1))
     {
-        fprintf(stderr, "Usage: %s <Ps> <Ss> <Sc> <p> [<sp>] [<se>] [<s>]",
+        fprintf(stderr, "Usage: %s <Ps> <Ss> <Sc> <p> [<sp>] [<se>] [<s>]\n",
             argv[0]);
         return 1;
     }
@@ -78,11 +78,11 @@ int main (int argc, char *argv[])
 
     // Extraction
     
-    strcpy(trial_results_name, "sampleResult.tsv");
+    strcpy(trial_results_name, "../Sampling/sampleResult.tsv");
     confidence_level = 0.90;
 
     sprintf(extration_call, "cd Extraction && make && ./Program.x"
-            "%s %d %d %lf",
+            " %s %d %d %lf",
             trial_results_name, sample_count, population_size, 
             confidence_level);
             
@@ -90,7 +90,7 @@ int main (int argc, char *argv[])
     
     if (return_code != 0)
     {
-        fprintf(stderr, "Running the extraction program failed with %d", 
+        fprintf(stderr, "Running the extraction program failed with %d\n", 
                 return_code);
         return 1;
     }

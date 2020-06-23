@@ -121,7 +121,7 @@ int main(int argc, char *argv[]) {
         number_of_trials = line;
     if (line != number_of_trials)
         fprintf(stderr, "Warning: Given number of trials does not correspond to "
-                "received data set.");
+                "received data set.\n");
     // TODO Wenn wir das eh auslesen, warum brauchen wir dann das Arguement? -
     // Hannes
 
