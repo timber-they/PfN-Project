@@ -17,6 +17,7 @@
  * Writes statistics into csv for gnuplot.
  */
 int main(int argc, char *argv[]) {
+    int i;
     unsigned int *trial_results = NULL, population_size, *confidence_interval,
         line = 0;
     size_t number_of_trials;
@@ -150,9 +151,8 @@ int main(int argc, char *argv[]) {
 
     // Actual data for the histogram - Absolute values
 
-    unsigned int *x_a = (unsigned int *)malloc((max_infected + 1) * sizeof *x_a);
-    unsigned int *y_a =
-        (unsigned int *)malloc((max_infected + 1) * sizeof *x_a);
+    unsigned int *x_a = malloc((max_infected + 1) * sizeof *x_a);
+    unsigned int *y_a = malloc((max_infected + 1) * sizeof *y_a);
 
     for (size_t i = 0; i <= max_infected; ++i) {
       x_a[i] = i;
@@ -164,9 +164,9 @@ int main(int argc, char *argv[]) {
     // TODO Where should this value be determined?
     // and what happens, when N_BUCKETS > number_of_trials?
     size_t n_buckets = 10;
-    double *x_r = (double *)malloc(n_buckets * sizeof *x_a);
-    double *y_r = (double *)malloc(n_buckets * sizeof *x_a);
-    size_t *buckets = (size_t *)malloc(n_buckets * sizeof *x_a);
+    double *x_r = malloc(n_buckets * sizeof *x_r);
+    double *y_r = malloc(n_buckets * sizeof *y_r);
+    size_t *buckets = malloc(n_buckets * sizeof *buckets);
 
     bucket_indices(buckets, population_size, n_buckets);
     percentage_of_trials_in_bucket(y_r, buckets, n_buckets, y_a, population_size);
@@ -176,36 +176,37 @@ int main(int argc, char *argv[]) {
 
     // adjustment for imagined number_of_trials for first version (should be
     // removed later) (TODO)
+    /*
     number_of_trials = 10;
-    
     // Array containing x values (infected), should be filled with real data
     double *x = (double *)malloc(number_of_trials * sizeof(double));
     // Array containing y values (appearance of infected), should be filled with
     // real data
     double *y = (double *)malloc(number_of_trials * sizeof(double));
     // imagined data, no meaning
-    int i; // TODO Variables should be declred at top
+
     for (i = 0; i < number_of_trials; i++) {
         x[i] = (double)i;
         y[i] = (double)10 / i;
     }
+    */
     // source data created
     FILE *source; // TODO Variables should be declared at top
     source = fopen("data.dat", "w+");
     if (source == NULL)
         return EXIT_FAILURE;
     for (i = 0; i < number_of_trials; i++) {
-        fprintf(source, "%lf %lf\n", x[i], y[i]);
+        fprintf(source, "%lf %lf\n", x_r[i], y_r[i]);
     }
     fclose(source);
     createCSV("data.dat", "results.csv");
 
     // TODO Pascal paint gnuplot data
 
-    paintHistogram("data.dat");
-    remove("data.dat");
-    free(x);
-    free(y);
+    //paintHistogram("data.dat");
+    //remove("data.dat");
+    //free(x);
+    //free(y);
 
     printf("%lf, %lf, %u, %u\n", median, medium, confidence_interval[0],
     confidence_interval[1]);
