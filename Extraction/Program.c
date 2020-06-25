@@ -9,6 +9,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <math.h>
+
+int compare_uint( const void* va , const void* vb )
+{
+    const unsigned int a = *( const unsigned int* )va,
+                       b = *( const unsigned int* )vb;
+
+    return (a > b) ? 1 : ((a < b) ? -1 : 0);
+}
+
+static void sort_uint(unsigned int *array, size_t n_elems) {
+    qsort(array, n_elems, sizeof *array, compare_uint);
+}
 
 
 /* Input a file name containing trial results data, size_t  number of trials
@@ -17,13 +30,17 @@
  * Writes statistics into csv for gnuplot.
  */
 int main(int argc, char *argv[]) {
-    int i;
-    unsigned int *trial_results = NULL, population_size, *confidence_interval,
-        line = 0;
+    unsigned int *trial_results = NULL,
+                 *sample_sizes = NULL,
+                 population_size,
+                 *confidence_interval,
+                 line = 0,
+                 i;
     size_t number_of_trials;
     double medium, median, confidence_level, *relative_results = NULL;
         /* **diagram_data; */
-    FILE *input_data;
+    FILE *input_data,
+         *source;
 
     /* diagram data: array of 2-arrays containing diagram point {x,y}
      * x-axis: n_infected (= trial_results)
@@ -52,8 +69,9 @@ int main(int argc, char *argv[]) {
             population_size = 82000000;
         if (argc < 3) {
             number_of_trials = 1; // bad guessing
-            trial_results = (unsigned int *)malloc(1000 * sizeof(unsigned int));
-            relative_results = (double *)malloc(1000 * sizeof(double));
+            trial_results = malloc(1000 * sizeof(trial_results));
+            sample_sizes = malloc(1000 * sizeof(sample_sizes));
+            relative_results = malloc(1000 * sizeof(relative_results));
         }
     }
 
@@ -69,9 +87,9 @@ int main(int argc, char *argv[]) {
                 number_of_trials);
         return EXIT_FAILURE;
     } else if (number_of_trials > 1) {
-        trial_results =
-            (unsigned int *)malloc(number_of_trials * sizeof(unsigned int));
-        relative_results = (double *)malloc(number_of_trials * sizeof(double));
+        trial_results = malloc(number_of_trials * sizeof(trial_results));
+        sample_sizes = malloc(number_of_trials * sizeof(sample_sizes));
+        relative_results = malloc(number_of_trials * sizeof(relative_results));
     }
     if (argc > 3 && sscanf(argv[3], "%u", &population_size) < 1) {
         fprintf(stderr,
@@ -114,7 +132,7 @@ int main(int argc, char *argv[]) {
 
     if (input_data == NULL)
         return EXIT_FAILURE;
-    while (fscanf(input_data, "%u\n", &trial_results[line]) != EOF)
+    while (fscanf(input_data, "%u\t%u\n", &sample_sizes[line], &trial_results[line]) != EOF)
         line++;
     fclose(input_data);
 
@@ -131,16 +149,30 @@ int main(int argc, char *argv[]) {
 
     // Done Julius read trial_results from file
 
+    sort_uint(trial_results, number_of_trials);
+
+    // FIXME doesn't work with variable sample sizes, cconvert get_median and
+    // get_medium back to double again and apply them to relative_results
     median = get_median(trial_results, number_of_trials);
     medium = get_medium(trial_results, number_of_trials);
     // TODO conf_itvl expects an array of doubles - Hannes
     confidence_interval =
         conf_itvl(trial_results, number_of_trials, confidence_level); 
 
-    for (int i = 0; i < number_of_trials; i++) {
-        relative_results[i] = (double)trial_results[i] / population_size;
+    for (i = 0; i < number_of_trials; i++) {
+        relative_results[i] = (double)trial_results[i] / sample_sizes[i];
+        //printf("%d\n",sample_sizes[i]);
     }
 
+    // This is where we should do the statistics for relative_results
+
+    // Round to two decimal places, i.e. whole percents
+    for(i= 0 ; i < number_of_trials; i++) {
+        relative_results[i] = ceilf(relative_results[i]  * 100) / 100;
+        //printf("%lf\n",relative_results[i]);
+    }
+
+    /*
     // Done Hannes count trial_results to get n_simulations > extract diagram data
     // Done Hannes accumulate histogram intervals?
     // TODO Pascal write data into gnuplot-readable (csv) file
@@ -173,7 +205,7 @@ int main(int argc, char *argv[]) {
     for (size_t i = 0; i < n_buckets; ++i) {
         x_r[i] = (double) (population_size / n_buckets) * i;
     }
-
+    */
     // adjustment for imagined number_of_trials for first version (should be
     // removed later) (TODO)
     /*
@@ -191,25 +223,43 @@ int main(int argc, char *argv[]) {
     }
     */
     // source data created
-    FILE *source; // TODO Variables should be declared at top
     source = fopen("data.dat", "w+");
     if (source == NULL)
         return EXIT_FAILURE;
-    for (i = 0; i < number_of_trials; i++) {
-        fprintf(source, "%lf %lf\n", x_r[i], y_r[i]);
+
+    // Count occurences of each value in relative_results
+    unsigned int count = 1;
+    double rel_count = 1;
+    for (i = 0; i < number_of_trials - 1; i++) {
+        if (relative_results[i] < relative_results[i+1]) {
+            //printf("%lf\t%lu",relative_results[i],count);
+            //printf("\t%f\n",rel_count);
+            fprintf(source, "%lf %lf\n",relative_results[i],rel_count);
+            count = 1;
+            rel_count = (double) count/sample_sizes[i];
+        }
+        else {
+            count++;
+            // Probably wrong for variable sample sizes
+            rel_count = (double) count/sample_sizes[i];
+        }
     }
+    fprintf(source, "%lf %lf\n",relative_results[number_of_trials-1],
+                                rel_count);
     fclose(source);
+
     createCSV("data.dat", "results.csv");
 
     // TODO Pascal paint gnuplot data
 
-    //paintHistogram("data.dat");
+    paintHistogram("data.dat");
     //remove("data.dat");
-    //free(x);
-    //free(y);
+    printf("%u, %lf, %lf, %u, %u\n", population_size, median, medium,
+                                     confidence_interval[0],
+                                     confidence_interval[1]);
 
-    printf("%lf, %lf, %u, %u\n", median, medium, confidence_interval[0],
-    confidence_interval[1]);
-
+    free(trial_results);
+    free(sample_sizes);
+    free(relative_results);
     return EXIT_SUCCESS;
 }
