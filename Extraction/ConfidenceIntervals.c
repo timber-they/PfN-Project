@@ -12,7 +12,7 @@
 // give: data as sorted array of doubles
 // give: desired confidence level in (0.0, 1.0]
 // return: 2-array with minimum and maximum of confidence interval
-unsigned int *conf_itvl(unsigned int *sorted, size_t n_elems, float level)
+double *conf_itvl(double *sorted, size_t n_elems, float level)
 {
 	if (n_elems == 0)
 	{
@@ -23,7 +23,7 @@ unsigned int *conf_itvl(unsigned int *sorted, size_t n_elems, float level)
 		fprintf(stderr, "Please input level greater than 0 and 1 at maximum");
 	}
 
-	static unsigned int intervals[2];
+	static double intervals[2];
 	unsigned int min, max;
 	max = (unsigned int) ((0.5 + level / 2) * n_elems - 1);
 	min = (unsigned int) ((0.5 - level / 2) * n_elems);

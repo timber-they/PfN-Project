@@ -11,16 +11,16 @@
 #include <unistd.h>
 #include <math.h>
 
-int compare_uint( const void* va , const void* vb )
+int compare_double( const void* va , const void* vb )
 {
-    const unsigned int a = *( const unsigned int* )va,
-                       b = *( const unsigned int* )vb;
+    const double a = *( const unsigned int* )va,
+                 b = *( const unsigned int* )vb;
 
     return (a > b) ? 1 : ((a < b) ? -1 : 0);
 }
 
-static void sort_uint(unsigned int *array, size_t n_elems) {
-    qsort(array, n_elems, sizeof *array, compare_uint);
+static void sort_double(double *array, size_t n_elems) {
+    qsort(array, n_elems, sizeof *array, compare_double);
 }
 
 
@@ -33,11 +33,10 @@ int main(int argc, char *argv[]) {
     unsigned int *trial_results = NULL,
                  *sample_sizes = NULL,
                  population_size,
-                 *confidence_interval,
                  line = 0,
                  i;
     size_t number_of_trials;
-    double medium, median, confidence_level, *relative_results = NULL;
+    double medium, median, *confidence_interval, confidence_level, *relative_results = NULL;
         /* **diagram_data; */
     FILE *input_data,
          *source;
@@ -149,16 +148,17 @@ int main(int argc, char *argv[]) {
 
     // Done Julius read trial_results from file
 
-    sort_uint(trial_results, number_of_trials);
+    //sort_uint(trial_results, number_of_trials);
 
     // FIXME doesn't work with variable sample sizes, cconvert get_median and
     // get_medium back to double again and apply them to relative_results
-    median = get_median(trial_results, number_of_trials);
-    medium = get_medium(trial_results, number_of_trials);
+    //median = get_median(trial_results, number_of_trials);
+    //medium = get_medium(trial_results, number_of_trials);
     // TODO conf_itvl expects an array of doubles - Hannes
-    confidence_interval =
-        conf_itvl(trial_results, number_of_trials, confidence_level); 
-
+    /*
+     confidence_interval =
+        conf_itvl(trial_results, number_of_trials, confidence_level);
+     */
     for (i = 0; i < number_of_trials; i++) {
         relative_results[i] = (double)trial_results[i] / sample_sizes[i];
         //printf("%d\n",sample_sizes[i]);
@@ -172,6 +172,11 @@ int main(int argc, char *argv[]) {
         //printf("%lf\n",relative_results[i]);
     }
 
+    sort_double(relative_results, number_of_trials);
+    median = get_median(relative_results, number_of_trials);
+    medium = get_medium(relative_results, number_of_trials);
+    confidence_interval =
+    conf_itvl(relative_results, number_of_trials, confidence_level);
     /*
     // Done Hannes count trial_results to get n_simulations > extract diagram data
     // Done Hannes accumulate histogram intervals?
@@ -254,7 +259,7 @@ int main(int argc, char *argv[]) {
 
     paintHistogram("data.dat");
     //remove("data.dat");
-    printf("%u, %lf, %lf, %u, %u\n", population_size, median, medium,
+    printf("%u, %lf, %lf, %lf, %lf\n", population_size, median, medium,
                                      confidence_interval[0],
                                      confidence_interval[1]);
 
