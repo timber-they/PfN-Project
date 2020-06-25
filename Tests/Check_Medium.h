@@ -3,7 +3,7 @@
 START_TEST(test_medium)
 {
     int i,j;
-    unsigned int sample[] = {1,2,3,4,5}, temp;
+    double sample[] = {1,2,3,4,5}, temp;
     double med = 3.0;
     size_t len = sizeof(sample) / sizeof(sample[0]);
 
