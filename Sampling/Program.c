@@ -15,7 +15,6 @@ int main(int argc, char *argv[])
     unsigned int positives = 0;
     double correctedPercentage;
     unsigned int correctedPositives;
-    int offset = 0;
     double sensitivity = 0.909;
     double specificity = 0.991;
 
@@ -110,8 +109,8 @@ int main(int argc, char *argv[])
         correctedPositives = correctedPercentage * sampleSize;
 
         // Sampling_Done
-        printf("Sample result: %u\t%u\n", size, correctedPositives);
-        fprintf(resultFile, "%u\t%u\n", size, correctedPositives);
+        printf("Sample result: %u\t%u\n", sampleSize, correctedPositives);
+        fprintf(resultFile, "%u\t%u\n", sampleSize, correctedPositives);
     }
     fclose(resultFile);
     return 0;
