@@ -59,13 +59,15 @@ int main (int argc, char *argv[])
         getLengthInt(sample_count) + 1 +
         sample_count * (getLengthInt(sample_size) + 1) + 1, sizeof(char));
         
-    sprintf(sampling_call, "cd Sampling && make && ./Program.x %lf %d %d %ud %d %lf %lf", 
+    sprintf(sampling_call, "cd Sampling && make && ./Program.x %lf %d %d %d %d %lf %lf", 
             probability, population_size, sample_count,sample_size ,  seed, sensitivity, specificity);
+    /*
     for (int i = 0; i < sample_count; i++)
     {
         strcat(sampling_call, " ");
         strcat(sampling_call, toString(sample_size));
     }
+    */
     printf("Running sampling with %s\n", sampling_call);
     return_code = system(sampling_call);
 
