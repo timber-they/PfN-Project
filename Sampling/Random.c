@@ -9,14 +9,14 @@ float getRandomNumber()
 
 void initRandom(int temp_seed)
 {
-	int seed = 100;
+    int seed;
 	if(temp_seed > 0)
     {
     	seed = temp_seed;
     }
     else
     {
-    	fprintf(stderr, "%s: The Seed has to be postive! \nseed: %d \n",__FILE__, seed);
+    	fprintf(stderr, "%s: The Seed has to be postive! \n",__FILE__);
     	exit(EXIT_FAILURE);
     }
     srand48(seed); // Seed Generation based on seed variable
