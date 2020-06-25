@@ -229,19 +229,19 @@ int main(int argc, char *argv[]) {
 
     // Count occurences of each value in relative_results
     unsigned int count = 1;
-    double rel_count = 1;
+    double rel_count = (double) 1/number_of_trials;
     for (i = 0; i < number_of_trials - 1; i++) {
         if (relative_results[i] < relative_results[i+1]) {
             //printf("%lf\t%lu",relative_results[i],count);
-            //printf("\t%f\n",rel_count);
+            //printf("%lf %lf\n",relative_results[i],rel_count);
             fprintf(source, "%lf %lf\n",relative_results[i],rel_count);
             count = 1;
-            rel_count = (double) count/sample_sizes[i];
+            rel_count = (double) count/number_of_trials;
         }
         else {
             count++;
             // Probably wrong for variable sample sizes
-            rel_count = (double) count/sample_sizes[i];
+            rel_count = (double) count/number_of_trials;
         }
     }
     fprintf(source, "%lf %lf\n",relative_results[number_of_trials-1],
