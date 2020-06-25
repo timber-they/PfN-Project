@@ -13,10 +13,18 @@
 
 int compare_double( const void* va , const void* vb )
 {
-    const double a = *( const unsigned int* )va,
-                 b = *( const unsigned int* )vb;
-
-    return (a > b) ? 1 : ((a < b) ? -1 : 0);
+    const double a = *( const double* )va,
+                 b = *( const double* )vb;
+    
+    if (fabs(a - b) < 1.0e-16)
+    {
+        return 0;
+    }
+    if (a > b)
+    {
+        return 1;
+    }
+    return -1;
 }
 
 static void sort_double(double *array, size_t n_elems) {
@@ -177,6 +185,11 @@ int main(int argc, char *argv[]) {
     medium = get_medium(relative_results, number_of_trials);
     confidence_interval =
     conf_itvl(relative_results, number_of_trials, confidence_level);
+
+    for(i= 0 ; i < number_of_trials; i++) {
+        printf("%lf\n",relative_results[i]);
+    }
+
     /*
     // Done Hannes count trial_results to get n_simulations > extract diagram data
     // Done Hannes accumulate histogram intervals?
