@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
                  || sscanf(argv[2], "%ud", &populationNumber) != 1
                  || sscanf(argv[3], "%ud", &sampleNumber) != 1
                  || sscanf(argv[4], "%ud", &sampleSize) != 1
-                 || sscanf(argv[5], "%ud", &seed) != 1
+                 || sscanf(argv[5], "%d", &seed) != 1
                  || sscanf(argv[6], "%lf", &sensitivity) != 1
                  || sscanf(argv[7], "%lf", &specificity)!= 1)
     {

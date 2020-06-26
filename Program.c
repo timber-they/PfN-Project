@@ -49,7 +49,7 @@ int main (int argc, char *argv[])
                  || (argc > 6 && sscanf(argv[6], "%lf", &sensitivity) != 1)
                  || (argc > 7 && sscanf(argv[7], "%lf", &specificity) != 1)) 
     {
-        fprintf(stderr, "Usage: %s <Ps> <Ss> <Sc> <p> <sS> [<s>] [<se>] [<sp>]\n",
+        fprintf(stderr, "Usage: %s <Ps> <Ss> <Sc> <p> [<s>] [<se>] [<sp>]\n",
             argv[0]);
         return 1;
     }
