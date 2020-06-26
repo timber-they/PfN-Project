@@ -2,7 +2,7 @@ name: C/C++ CI
 
 on:
   push:
-    branches: [ master,Workflow,Median_Tests ]
+    branches: [ master,Workflow,Profiling ]
   pull_request:
     branches: [ master ]
 
