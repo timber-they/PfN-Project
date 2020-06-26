@@ -34,7 +34,8 @@ int main (int argc, char *argv[])
     double probability;
     double sensitivity = 0.909;
     double specificity = 0.991;
-    int seed, return_code;
+    int seed = 11;
+    int return_code;
     char *sampling_call;
     char extration_call[100];
     char trial_results_name[100];

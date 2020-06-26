@@ -22,26 +22,16 @@ int main(int argc, char *argv[])
     const char *resultFileName = "sampleResult.tsv";
     FILE *resultFile = NULL;
 
-    if (argc < 7 || sscanf(argv[1], "%lf", &p) != 1
+    if (argc < 5 || sscanf(argv[1], "%lf", &p) != 1
                  || sscanf(argv[2], "%ud", &populationNumber) != 1
                  || sscanf(argv[3], "%ud", &sampleNumber) != 1
                  || sscanf(argv[4], "%ud", &sampleSize) != 1
-                 || sscanf(argv[5], "%d", &seed) != 1
-                 || sscanf(argv[6], "%lf", &sensitivity) != 1
-                 || sscanf(argv[7], "%lf", &specificity)!= 1)
+                 || (argc > 5 && sscanf(argv[5], "%d", &seed) != 1)
+                 || (argc > 6 && sscanf(argv[6], "%lf", &sensitivity) != 1)
+                 || (argc > 7 && sscanf(argv[7], "%lf", &specificity)!= 1))
     {
         fprintf(stderr, "Usage: %s <p> <N> <n> <S> [<s>] [<se>] [<sp>]\n", argv[0]);
         return 1;
-    }
-
-    //check if seed is one of the parameters
-    if(argc == 6)
-    {
-        if(sscanf(argv[5], "%d", &seed) != 1)
-        {
-            fprintf(stderr, "Couldn't read seed");
-            return 1;
-        }
     }
 
     /*
@@ -80,10 +70,11 @@ int main(int argc, char *argv[])
     }
     
     //create sampling for every sample-size
+    source = getLazySource(populationNumber, p);
     for(int sample = 0; sample < sampleNumber; sample++)
     {
         positives = 0;
-        source = getLazySource(populationNumber, p);
+        reset(&source);
 
         // Sampling_Ready -> Sampling_Progressing
         for (int i = 0; i < sampleSize; i++)

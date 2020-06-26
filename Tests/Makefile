@@ -35,3 +35,4 @@ Note that you might need to add source files here to be compiled." >$@
 .PHONY:clean
 clean:
 	${RM} ${FILE_BASE}.[ox]
+	${RM} gmon-out
