@@ -40,6 +40,7 @@ int main (int argc, char *argv[])
     char extration_call[100];
     char trial_results_name[100];
     double confidence_level;
+    char *resultsName = "Sampling/sampleResult.tsv";
 
     if (argc < 5 || argc > 8
                  || sscanf(argv[1], "%ud", &population_size) != 1
@@ -58,35 +59,25 @@ int main (int argc, char *argv[])
     sampling_call = calloc(34 + getLengthDouble(probability) + 1 + 
         getLengthInt(population_size) + 1 + 
         getLengthInt(sample_count) + 1 +
-        sample_count * (getLengthInt(sample_size) + 1) + 1, sizeof(char));
+        getLengthInt(-1) + 1 +
+        getLengthInt(seed) + 1 +
+        getLengthDouble(sensitivity) + 1 +
+        getLengthDouble(specificity) + 1, sizeof(char));
         
     sprintf(sampling_call, "cd Sampling && make && ./Program.x %lf %d %d %d %d %lf %lf", 
-            probability, population_size, sample_count,sample_size ,  seed, sensitivity, specificity);
-    /*
-    for (int i = 0; i < sample_count; i++)
-    {
-        strcat(sampling_call, " ");
-        strcat(sampling_call, toString(sample_size));
-    }
-    */
-    printf("Running sampling with %s\n", sampling_call);
-    return_code = system(sampling_call);
+            probability, population_size, sample_count, -1, seed, sensitivity, specificity);
 
-    if (return_code != 0)
+    if (writeSizesToFile(resultsName) != 0)
     {
-        fprintf(stderr, "Running the sampling program failed with %d\n",
-                return_code);
         return 1;
     }
 
-
-
     // Extraction
     
-    strcpy(trial_results_name, "../Sampling/sampleResult.tsv");
+    strcpy(trial_results_name, resultsName);
     confidence_level = 0.90;
 
-    sprintf(extration_call, "cd Extraction && make && ./Program.x"
+    sprintf(extration_call, "(cd Extraction && make) && Extraction/Program.x"
             " %s %d %d %lf",
             trial_results_name, sample_count, population_size, 
             confidence_level);
@@ -101,4 +92,21 @@ int main (int argc, char *argv[])
     }
     
     return 0;
+}
+
+int writeSizesToFile(char* fileName, unsigned int sampleSize)
+{    
+    FILE *resultFile = fopen(fileName, "w");
+    if(resultFile == NULL)
+    {
+        fprintf(stderr, "Could not open file");
+        return 1;
+    }
+    
+    for(int sample = 0; sample < sampleNumber; sample++)
+    {
+        fprintf(resultFile, "%u\n", sampleSize);
+    }
+
+    fclose(resultFile);
 }

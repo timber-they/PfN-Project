@@ -65,7 +65,10 @@ int main(int argc, char *argv[]) {
     }
 
     if (argc < 2)
+    {
         fprintf(stderr, "Error: Too few arguments\n");
+        return EXIT_FAILURE;
+    }
     else if (argc < 5) {
         // TODO was soll diese Nachricht sagen? - Hannes
         printf("Warning: Interpreting input as {} <file name> ");
@@ -146,8 +149,8 @@ int main(int argc, char *argv[]) {
     if (number_of_trials == 1)
         number_of_trials = line;
     if (line != number_of_trials)
-        fprintf(stderr, "Warning: Given number of trials does not correspond to "
-                "received data set.\n");
+        fprintf(stderr, "Warning: Given number of trials (%lu) does not correspond to "
+                "received data set (%u).\n", number_of_trials, line);
     // TODO Wenn wir das eh auslesen, warum brauchen wir dann das Arguement? -
     // Hannes
 
@@ -185,11 +188,11 @@ int main(int argc, char *argv[]) {
     medium = get_medium(relative_results, number_of_trials);
     confidence_interval =
     conf_itvl(relative_results, number_of_trials, confidence_level);
-
+    /*
     for(i= 0 ; i < number_of_trials; i++) {
         printf("%lf\n",relative_results[i]);
     }
-
+    */
     /*
     // Done Hannes count trial_results to get n_simulations > extract diagram data
     // Done Hannes accumulate histogram intervals?
@@ -272,7 +275,7 @@ int main(int argc, char *argv[]) {
 
     paintHistogram("data.dat");
     //remove("data.dat");
-    printf("%u, %lf, %lf, %lf, %lf\n", population_size, median, medium,
+    printf("Population Size:%u, median: %lf, medium: %lf, confidence_interval[0]: %lf, confidence_interval[1]: %lf\n", population_size, median, medium,
                                      confidence_interval[0],
                                      confidence_interval[1]);
 

@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     double p = 0;
     unsigned int populationNumber = 0;
     unsigned int sampleNumber = 0; // number of samples to create
-    unsigned int sampleSize = 0;
+    unsigned int sampleSize = -1;
     int seed = 96661;
     LazySource *source;
     unsigned int positives = 0;
@@ -17,46 +17,55 @@ int main(int argc, char *argv[])
     unsigned int correctedPositives;
     double sensitivity = 0.909;
     double specificity = 0.991;
-
+    unsigned int *sampleSizes;
     
+        
     const char *resultFileName = "sampleResult.tsv";
     FILE *resultFile = NULL;
 
-    if (argc < 5 || sscanf(argv[1], "%lf", &p) != 1
+    if (argc < 4 || sscanf(argv[1], "%lf", &p) != 1
                  || sscanf(argv[2], "%ud", &populationNumber) != 1
                  || sscanf(argv[3], "%ud", &sampleNumber) != 1
-                 || sscanf(argv[4], "%ud", &sampleSize) != 1
+                 || (argc > 4 && sscanf(argv[4], "%ud", &sampleSize) != 1)
                  || (argc > 5 && sscanf(argv[5], "%d", &seed) != 1)
                  || (argc > 6 && sscanf(argv[6], "%lf", &sensitivity) != 1)
                  || (argc > 7 && sscanf(argv[7], "%lf", &specificity)!= 1))
     {
-        fprintf(stderr, "Usage: %s <p> <N> <n> <S> [<s>] [<se>] [<sp>]\n", argv[0]);
+        fprintf(stderr, "Usage: %s <p> <N> <n> [<S>] [<s>] [<se>] [<sp>]\n", argv[0]);
         return 1;
     }
 
-    /*
-    offset = argc - sampleNumber;
-    
-    //get #sampleNumber sample-sizes from parameters
-    unsigned int sampleSizes[sampleNumber];
-    for (int i = 0; i < sampleNumber; i++)
+    sampleSizes = calloc(sampleNumber, sizeof(*sampleSizes));
+    if (sampleSize == -1)
     {
-        sscanf(argv[i + offset], "%ud", &sampleSizes[i]);
-        if (sampleSizes[i] > populationNumber)
+        unsigned int line = 0;
+        // Read sample sizes from file
+        resultFile = fopen(resultFileName, "r");
+        if(resultFile == NULL)
         {
-            fprintf(stderr,
-                    "Samplesize can't be larger than Populationsize\n");
+            fprintf(stderr, "Could not open file for sample sizes and no sample size was passed");
             return 1;
         }
+        while (fscanf(resultFile, "%u\n", &sampleSizes[line]) != EOF)
+            line++;
+
+        fclose(resultFile);
     }
-    */
+    else
+    {
+        // Write fixed sample sizes into array
+        for (unsigned int i = 0; i < sampleNumber; i++)
+        {
+            sampleSizes[i] = sampleSize;
+        }
+    }
+
 
     if (p < 0 || p > 1)
     {
         fprintf(stderr, "Probability can't be less than 0 or more than 1\n");
         return 1;
-    }
-    
+    }   
     
 
     // Sampling_Init
