@@ -63,7 +63,7 @@ int run(char* call)
     printf("Running %s", call);
     while(fgets(buf, sizeof(buf), p) != 0)
     {
-        printf(buf);
+        printf("%s", buf);
     }
 
     return pclose(p);
