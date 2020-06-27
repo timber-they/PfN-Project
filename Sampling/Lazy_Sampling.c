@@ -36,20 +36,27 @@ int getElement(LazySource *source)
 LazySource getLazySource(int size, double probability)
 {
     LazySource res;
-    res.Positives = 0;
-    res.Negatives = 0;
+    res.InitialPositives = 0;
+    res.InitialNegatives = 0;
     for (int i = 0; i < size; i++)
     {
         if (getWithProbability(probability))
         {
-            res.Positives++;
+            res.InitialPositives++;
         }
         else
         {
-            res.Negatives++;
+            res.InitialNegatives++;
         }        
     }
 
+    reset(&res);
     return res;
+}
+
+void reset(LazySource *source)
+{
+    source->Positives = source->InitialPositives;
+    source->Negatives = source->InitialNegatives;
 }
 

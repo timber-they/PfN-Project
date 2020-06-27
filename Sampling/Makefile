@@ -7,7 +7,6 @@ all:${FILE_BASE}.x
 
 %.x:%.c
 	${CC} ${CFLAGS} -o $@ $< ${DEPENDENCIES}
-
 README:Makefile
 	@echo "Lazy Sampling is implemented in Lazy_Sampling.c" > $@
 
@@ -16,3 +15,8 @@ clean:
 	${RM} ${FILE_BASE}.[ox]
 	${RM} -r ${FILE_BASE}.x.dSYM__pycache__
 	${RM} sampleResult.tsv
+	${RM} gmon-out
+
+.PHONY:profile
+profile:
+	${CC} ${CFLAGS} -pg ${FILE_BASE}.c -o ${FILE_BASE}.x ${DEPENDENCIES}

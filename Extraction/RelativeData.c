@@ -15,17 +15,20 @@
 // TODO input checks
 // TODO step doesn't need to be calculated in every iteration
 // TODO ggf eine Funktion im Interface
-void bucket_indices(size_t target[], size_t population_size, size_t n_buckets) {
-    for (size_t i = 0; i < n_buckets; ++i) {
+void bucket_indices(size_t target[], size_t population_size, size_t n_buckets) 
+{
+    for (size_t i = 0; i < n_buckets; ++i)
+    {
         target[i] = (size_t) ((population_size  + 1)/ n_buckets) * i;
-        }
+    }
 }
 
 // TODO target must be 0 initialized!
 void percentage_of_trials_in_bucket(double target[], size_t *buckets,
                                     size_t n_buckets,
                                     TYPE *occurences_of_n_infected,
-                                    size_t population_size) {
+                                    size_t population_size) 
+                                    {
 
     for (size_t i = 0, bucket = 0; i <= population_size; ++i) {
         // Relies on short circuiting!

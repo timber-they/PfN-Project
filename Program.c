@@ -31,8 +31,11 @@ char* toString(int i)
 int main (int argc, char *argv[])
 {
     unsigned int population_size, sample_size, sample_count;
-    double probability, specificity, selectivity;
-    int seed, return_code;
+    double probability;
+    double sensitivity = 0.909;
+    double specificity = 0.991;
+    int seed = 11;
+    int return_code;
     char *sampling_call;
     char extration_call[100];
     char trial_results_name[100];
@@ -43,11 +46,11 @@ int main (int argc, char *argv[])
                  || sscanf(argv[2], "%ud", &sample_size) != 1
                  || sscanf(argv[3], "%ud", &sample_count) != 1
                  || sscanf(argv[4], "%lf", &probability) != 1
-                 || (argc > 5 && sscanf(argv[5], "%lf", &specificity) != 1)
-                 || (argc > 6 && sscanf(argv[6], "%lf", &selectivity) != 1)
-                 || (argc > 7 && sscanf(argv[7], "%d", &seed) != 1))
+                 || (argc > 5 && sscanf(argv[5], "%d", &seed) != 1)
+                 || (argc > 6 && sscanf(argv[6], "%lf", &sensitivity) != 1)
+                 || (argc > 7 && sscanf(argv[7], "%lf", &specificity) != 1)) 
     {
-        fprintf(stderr, "Usage: %s <Ps> <Ss> <Sc> <p> [<sp>] [<se>] [<s>]\n",
+        fprintf(stderr, "Usage: %s <Ps> <Ss> <Sc> <p> [<s>] [<se>] [<sp>]\n",
             argv[0]);
         return 1;
     }
@@ -57,13 +60,15 @@ int main (int argc, char *argv[])
         getLengthInt(sample_count) + 1 +
         sample_count * (getLengthInt(sample_size) + 1) + 1, sizeof(char));
         
-    sprintf(sampling_call, "cd Sampling && make && ./Program.x %lf %d %d", 
-            probability, population_size, sample_count);
+    sprintf(sampling_call, "cd Sampling && make && ./Program.x %lf %d %d %d %d %lf %lf", 
+            probability, population_size, sample_count,sample_size ,  seed, sensitivity, specificity);
+    /*
     for (int i = 0; i < sample_count; i++)
     {
         strcat(sampling_call, " ");
         strcat(sampling_call, toString(sample_size));
     }
+    */
     printf("Running sampling with %s\n", sampling_call);
     return_code = system(sampling_call);
 
