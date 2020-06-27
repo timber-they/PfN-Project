@@ -4,6 +4,77 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+// TODO: Read just in time
+unsigned int *getSampleSizes(unsigned int sampleNumber, unsigned int sampleSize,
+        FILE* resultFile, unsigned int maxSampleSize)
+{    
+    unsigned int *sampleSizes = calloc(sampleNumber, sizeof(*sampleSizes));
+    if (sampleSize == -1)
+    {
+        unsigned int line = 0;
+        printf("Reading sample sizes from file\n");
+        if(resultFile == NULL)
+        {
+            fprintf(stderr, 
+                    "Couldn't open file for and no sample size was passed\n");
+            return NULL;
+        }
+        for (;fscanf(resultFile, "%u\n", &sampleSizes[line]) != EOF; line++)
+        {
+            if (sampleSizes[line] == 0 || sampleSizes[line] > maxSampleSize)
+            {
+                fprintf(stderr, 
+                        "Invalid sample size: %u; maximum sample size is: %u\n",
+                        sampleSizes[line], maxSampleSize);
+                return NULL;
+            }
+        }
+        
+        if (line != sampleNumber)
+        {
+            fprintf(stderr, "Received %u instead of %u sample sizes\n", 
+                    line, sampleNumber);
+            fclose(resultFile);
+            return NULL;
+        } else
+        {
+            printf("Succesfully read %u sample sizes\n", sampleNumber);
+        }
+    }
+    else
+    {
+        printf("Using %u fixed sample sizes\n", sampleNumber);
+        // Write fixed sample sizes into array
+        for (unsigned int i = 0; i < sampleNumber; i++)
+        {
+            sampleSizes[i] = sampleSize;
+        }
+    }
+
+    return sampleSizes;
+}
+
+int simulateTest(LazySource *source, double sensitivity, double specificity,
+        int positives)
+{
+    if (takeElement(source))
+    {
+        if (getWithProbability(sensitivity))
+        {
+            positives++;
+        }
+    }
+    else
+    {
+        if (getWithProbability(1 - specificity))
+        {
+            positives++;
+        }
+    }
+
+    return positives;
+}
+
 int main(int argc, char *argv[])
 {
     double p = 0;
@@ -36,52 +107,12 @@ int main(int argc, char *argv[])
     }
 
     resultFile = fopen(resultFileName, "r+");
-    if(resultFile == NULL)
+    sampleSizes = getSampleSizes(sampleNumber, sampleSize, resultFile,
+            populationNumber);
+    if (sampleSizes == NULL)
     {
-        if (sampleSize == -1)
-        {
-            fprintf(stderr, "Could not open input file and no sample size was passed\n");
-            return 1;
-        }
+        return 1;
     }
-
-    sampleSizes = malloc(sampleNumber);
-    if (sampleSize == -1)
-    {
-        unsigned int line = 0;
-        printf("Reading sample sizes from file\n");
-        // TODO: Read just in time
-        if(resultFile == NULL)
-        {
-            fprintf(stderr, "Could not open file for sample sizes and no sample size was passed\n");
-            return 1;
-        }
-        while (fscanf(resultFile, "%u\n", &sampleSizes[line]) != EOF)
-        {
-            line++;
-        }
-        
-        if (line != sampleNumber)
-        {
-            fprintf(stderr, "Received %u instead of %u sample sizes\n", line, sampleNumber);
-            fclose(resultFile);
-            return 1;
-        } else
-        {
-            printf("Succesfully read %u sample sizes.\n", sampleNumber);
-        }
-    }
-    else
-    {
-        printf("Using %u fixed sample sizes\n", sampleNumber);
-        // Write fixed sample sizes into array
-        for (unsigned int i = 0; i < sampleNumber; i++)
-        {
-            printf("%u\n", i);
-            sampleSizes[i] = sampleSize;
-        }
-    }
-
 
     if (p < 0 || p > 1)
     {
@@ -100,7 +131,7 @@ int main(int argc, char *argv[])
     {
         resultFile = fopen(resultFileName, "w");
     }
-    if(resultFile == NULL)
+    if (resultFile == NULL)
     {
         fprintf(stderr, "Could not open file");
         return 1;
@@ -118,20 +149,8 @@ int main(int argc, char *argv[])
         // Sampling_Ready -> Sampling_Progressing
         for (int i = 0; i < sampleSize; i++)
         {
-            if (takeElement(source))
-            {
-                if (getWithProbability(sensitivity))
-                {
-                    positives++;
-                }
-            }
-            else
-            {
-                if (getWithProbability(1 - specificity))
-                {
-                    positives++;
-                }
-            }
+            positives = simulateTest(source, sensitivity, specificity,
+                    positives);
         }
 
         correctedPercentage = correction((double) positives /
@@ -139,7 +158,8 @@ int main(int argc, char *argv[])
         correctedPositives = correctedPercentage * sampleSize;
 
         // Sampling_Done
-        printf("Sample result: %u\t%u\n", sampleSize, correctedPositives);
+        printf("%uth sample result: %u\t%u\n", sample, sampleSize,
+                correctedPositives);
         fprintf(resultFile, "%u\t%u\n", sampleSize, correctedPositives);
     }
 

@@ -37,6 +37,7 @@ int writeSizesToFile(char* fileName, unsigned int sampleSize, unsigned int sampl
         return 1;
     }
     
+    printf("Writing %u sample sizes\n", sampleNumber);
     for(int sample = 0; sample < sampleNumber; sample++)
     {
         fprintf(resultFile, "%u\n", sampleSize);
@@ -45,6 +46,27 @@ int writeSizesToFile(char* fileName, unsigned int sampleSize, unsigned int sampl
     fclose(resultFile);
 
     return 0;
+}
+
+// TODO: Move to extra file
+int run(char* call)
+{
+    FILE *p = popen(call, "re");
+    char buf[256];
+
+    if (p == NULL)
+    {
+        fprintf(stderr, "Can't run %s", call);
+        return -1;
+    }
+
+    printf("Running %s", call);
+    while(fgets(buf, sizeof(buf), p) != 0)
+    {
+        printf(buf);
+    }
+
+    return pclose(p);
 }
 
 int main (int argc, char *argv[])
@@ -92,7 +114,13 @@ int main (int argc, char *argv[])
     }
     
     printf("Running sampling with %s\n", sampling_call);
-    return_code = system(sampling_call);
+    return_code = run(sampling_call);
+    if (return_code != 0)
+    {
+        fprintf(stderr, "Running the sampling program failed with %d\n", 
+                return_code);
+        return 1;
+    }
 
     // Extraction
     
@@ -104,7 +132,7 @@ int main (int argc, char *argv[])
             trial_results_name, sample_count, population_size, 
             confidence_level);
             
-    return_code = system(extration_call);
+    return_code = run(extration_call);
     
     if (return_code != 0)
     {
