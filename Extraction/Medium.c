@@ -3,10 +3,10 @@
 
 #include "Medium.h"
 
-double get_medium(unsigned int* sample, size_t n_elems)
+double get_medium(double* sample, size_t n_elems)
 {
-    unsigned int i, sum=0;
-    double medium;
+    unsigned int i;
+    double medium, sum=0;
 
     for(i=0; i<n_elems; i++)
     {

@@ -7,7 +7,7 @@
 //the maximum lenth for the filname of the sources is 32 characters
 int paintHistogram(char *source)
 {
-    int i, numCommands = 8;
+    int i, numCommands = 7;
     char plotCommand[50];
     if (strlen(source) > 32)
     {
@@ -25,7 +25,7 @@ int paintHistogram(char *source)
     strcat(plotCommand, source);
     strcat(plotCommand, "\" w boxes");
     char * commandsForGnuplot[] = {"set title \"Distribution\"", "set xlabel \"x\"",
-        "set ylabel \"Probability\"", "set xrange [-0.1:1.1]", "set size square",
+        "set ylabel \"Probability\"", "set size square",
         "set boxwidth 0.85 relative", "set style fill solid 1.0",
         plotCommand};
     /*
