@@ -177,7 +177,7 @@ int main(int argc, char *argv[]) {
     // adjustment for imagined number_of_trials for first version (should be
     // removed later) (TODO)
     number_of_trials = 10;
-    
+
     // Array containing x values (infected), should be filled with real data
     double *x = (double *)malloc(number_of_trials * sizeof(double));
     // Array containing y values (appearance of infected), should be filled with
