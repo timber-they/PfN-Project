@@ -28,6 +28,25 @@ char* toString(int i)
     return str;
 }
 
+int writeSizesToFile(char* fileName, unsigned int sampleSize, unsigned int sampleNumber)
+{    
+    FILE *resultFile = fopen(fileName, "w");
+    if(resultFile == NULL)
+    {
+        fprintf(stderr, "Could not open file");
+        return 1;
+    }
+    
+    for(int sample = 0; sample < sampleNumber; sample++)
+    {
+        fprintf(resultFile, "%u\n", sampleSize);
+    }
+
+    fclose(resultFile);
+
+    return 0;
+}
+
 int main (int argc, char *argv[])
 {
     unsigned int population_size, sample_size, sample_count;
@@ -67,10 +86,13 @@ int main (int argc, char *argv[])
     sprintf(sampling_call, "cd Sampling && make && ./Program.x %lf %d %d %d %d %lf %lf", 
             probability, population_size, sample_count, -1, seed, sensitivity, specificity);
 
-    if (writeSizesToFile(resultsName) != 0)
+    if (writeSizesToFile(resultsName, sample_size, sample_count) != 0)
     {
         return 1;
     }
+    
+    printf("Running sampling with %s\n", sampling_call);
+    return_code = system(sampling_call);
 
     // Extraction
     
@@ -92,21 +114,4 @@ int main (int argc, char *argv[])
     }
     
     return 0;
-}
-
-int writeSizesToFile(char* fileName, unsigned int sampleSize)
-{    
-    FILE *resultFile = fopen(fileName, "w");
-    if(resultFile == NULL)
-    {
-        fprintf(stderr, "Could not open file");
-        return 1;
-    }
-    
-    for(int sample = 0; sample < sampleNumber; sample++)
-    {
-        fprintf(resultFile, "%u\n", sampleSize);
-    }
-
-    fclose(resultFile);
 }

@@ -35,24 +35,42 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    resultFile = fopen(resultFileName, "r+");
+    if(resultFile == NULL)
+    {
+        fprintf(stderr, "Could not open file");
+        return 1;
+    }
+
     sampleSizes = calloc(sampleNumber, sizeof(*sampleSizes));
     if (sampleSize == -1)
     {
         unsigned int line = 0;
-        // Read sample sizes from file
-        resultFile = fopen(resultFileName, "r");
+        printf("Reading sample sizes from file\n");
+        // TODO: Read just in time
         if(resultFile == NULL)
         {
-            fprintf(stderr, "Could not open file for sample sizes and no sample size was passed");
+            fprintf(stderr, "Could not open file for sample sizes and no sample size was passed\n");
             return 1;
         }
         while (fscanf(resultFile, "%u\n", &sampleSizes[line]) != EOF)
+        {
             line++;
-
-        fclose(resultFile);
+        }
+        
+        if (line != sampleNumber)
+        {
+            fprintf(stderr, "Received %u instead of %u sample sizes\n", line, sampleNumber);
+            fclose(resultFile);
+            return 1;
+        } else
+        {
+            printf("Succesfully read %u sample sizes.\n", sampleNumber);
+        }
     }
     else
     {
+        printf("Using fixed sample sizes\n");
         // Write fixed sample sizes into array
         for (unsigned int i = 0; i < sampleNumber; i++)
         {
@@ -70,8 +88,8 @@ int main(int argc, char *argv[])
 
     // Sampling_Init
     initRandom(seed);
-    
-    resultFile = fopen(resultFileName, "w");
+
+    resultFile = freopen(resultFileName, "w", resultFile);
     if(resultFile == NULL)
     {
         fprintf(stderr, "Could not open file");
@@ -80,8 +98,10 @@ int main(int argc, char *argv[])
     
     //create sampling for every sample-size
     source = getLazySource(populationNumber, p);
+    printf("Got lazy source\n");
     for(int sample = 0; sample < sampleNumber; sample++)
     {
+        sampleSize = sampleSizes[sample];
         positives = 0;
         reset(source);
 
