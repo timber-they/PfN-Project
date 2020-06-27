@@ -15,7 +15,7 @@ int compare_double( const void* va , const void* vb )
 {
     const double a = *( const double* )va,
                  b = *( const double* )vb;
-    
+
     if (fabs(a - b) < 1.0e-16)
     {
         return 0;
@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (argc < 2)
-        fprintf(stderr, "Error: Too little arguments\n");
+        fprintf(stderr, "Error: Too few arguments\n");
     else if (argc < 5) {
         // TODO was soll diese Nachricht sagen? - Hannes
         printf("Warning: Interpreting input as {} <file name> ");
