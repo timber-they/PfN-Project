@@ -54,3 +54,4 @@ dkms.conf
 # Custom
 *.DS_STORE
 *.x
+*.tsv

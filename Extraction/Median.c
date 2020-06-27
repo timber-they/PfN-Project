@@ -11,7 +11,7 @@ int comp_int(const void *a, const void *b)
 the median is the middle element of a sorted array.
 If the length is even, the average of the 2 middle elements is taken.
 */
-double get_median(int *sorted, size_t n_elems)
+double get_median(unsigned int *sorted, size_t n_elems)
 {
     if (n_elems == 0)
     {

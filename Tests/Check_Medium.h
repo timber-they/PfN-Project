@@ -3,8 +3,8 @@
 START_TEST(test_medium)
 {
     int i,j;
-    double sample[] = {1.0,2.0,3.0,4.0,5.0};
-    double temp, med = 3.0;
+    unsigned int sample[] = {1,2,3,4,5}, temp;
+    double med = 3.0;
     size_t len = sizeof(sample) / sizeof(sample[0]);
 
     for(i = 0; i<len; i++)
@@ -15,7 +15,7 @@ START_TEST(test_medium)
             sample[j] = sample[j-1];
         }
         sample[0]=temp;
-        ck_assert(medium(sample,len)==med);
+        ck_assert(get_medium(sample,len)==med);
     }
 }
 END_TEST

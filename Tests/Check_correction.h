@@ -2,7 +2,7 @@
 #include <stdlib.h>
 START_TEST(test_correction)
 {
-    double f1 = correction(0.9);
+    double f1 = correction(0.9,0.909,0.991);
     double diff = f1 - 0.99;
     if (diff < 0)
         diff = -diff;

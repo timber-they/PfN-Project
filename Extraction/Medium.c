@@ -1,16 +1,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-double medium(double* sample, size_t n_elems)
+#include "Medium.h"
+
+double get_medium(unsigned int* sample, size_t n_elems)
 {
-    int i;
-    double sum=0, medium;
+    unsigned int i, sum=0;
+    double medium;
 
     for(i=0; i<n_elems; i++)
     {
         sum+=sample[i];
     }
-    medium = sum/n_elems;
+    medium = (double) sum/n_elems;
 
     return medium;
 }
