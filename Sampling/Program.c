@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     unsigned int sampleNumber = 0; // number of samples to create
     unsigned int sampleSize = 0;
     int seed = 96661;
-    LazySource source;
+    LazySource *source;
     unsigned int positives = 0;
     double correctedPercentage;
     unsigned int correctedPositives;
@@ -74,12 +74,12 @@ int main(int argc, char *argv[])
     for(int sample = 0; sample < sampleNumber; sample++)
     {
         positives = 0;
-        reset(&source);
+        reset(source);
 
         // Sampling_Ready -> Sampling_Progressing
         for (int i = 0; i < sampleSize; i++)
         {
-            if (takeElement(&source))
+            if (takeElement(source))
             {
                 if (getWithProbability(sensitivity))
                 {
@@ -103,6 +103,9 @@ int main(int argc, char *argv[])
         printf("Sample result: %u\t%u\n", sampleSize, correctedPositives);
         fprintf(resultFile, "%u\t%u\n", sampleSize, correctedPositives);
     }
+
     fclose(resultFile);
+    free(source);
+
     return 0;
 }

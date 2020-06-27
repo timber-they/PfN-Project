@@ -5,7 +5,7 @@ DEPENDENCIES=
 
 all:${FILE_BASE}.x
 
-%.x:%.c
+%.x:%.c ${DEPENDENCIES}
 	${CC} ${CFLAGS} -o $@ $< ${DEPENDENCIES}
 
 README:Makefile
@@ -16,7 +16,7 @@ clean:
 	${RM} ${FILE_BASE}.[ox]
 	${RM} -r ${FILE_BASE}.x.dSYM__pycache__
 	${RM} sampleResult.txt
-	${RM} gmon-out
+	${RM} gmon.out
 
 .PHONY:profile
 profile:

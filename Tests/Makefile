@@ -13,7 +13,7 @@ endif
 
 all:${FILE_BASE}.x
 
-%.x:%.c
+%.x:%.c ${DEPENDENCIES}
 ifneq (,$(findstring Ubuntu,${OS}))
 # Ubuntu
 	${CC} ${CFLAGS} -o $@ $< ${CLIBS} ${UBUNTUFLAGS} ${DEPENDENCIES}

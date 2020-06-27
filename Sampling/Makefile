@@ -5,8 +5,9 @@ DEPENDENCIES=Lazy_Sampling.c correction.c Random.c
 
 all:${FILE_BASE}.x
 
-%.x:%.c
+%.x:%.c ${DEPENDENCIES}
 	${CC} ${CFLAGS} -o $@ $< ${DEPENDENCIES}
+
 README:Makefile
 	@echo "Lazy Sampling is implemented in Lazy_Sampling.c" > $@
 
@@ -15,7 +16,7 @@ clean:
 	${RM} ${FILE_BASE}.[ox]
 	${RM} -r ${FILE_BASE}.x.dSYM__pycache__
 	${RM} sampleResult.tsv
-	${RM} gmon-out
+	${RM} gmon.out
 
 .PHONY:profile
 profile:
