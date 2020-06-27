@@ -26,6 +26,8 @@ jobs:
       run: (cd Sampling && make)
     - name: make Extraction
       run: (cd Extraction && make)
+    - name: make Main
+      run: make
     - name: executable infos
       run: (file Tests/Checks.x; file Sampling/Program.x; file Extraction/Program.x) | tr "\n" "\n"
     - name: run tests
@@ -45,3 +47,5 @@ jobs:
       run: (cd Sampling && make)
     - name: make Extraction
       run: (cd Extraction && make)
+    - name: make Main
+      run: make
