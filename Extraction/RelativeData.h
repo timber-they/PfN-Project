@@ -22,9 +22,11 @@ void bucket_indices(size_t target[], size_t population_size, size_t n_buckets);
   - occurences_of_n_infected: occurences_of_n_infected[i] contains
   the number of samples that returned i infected people
 */
-void
-percentage_of_trials_in_bucket(double target[], size_t *buckets,
-                               size_t n_buckets,
-                               TYPE *occurences_of_n_infected,
-                               size_t n_trials);
+void percentage_of_trials_in_bucket(double target[], size_t *buckets,
+                                    size_t n_buckets,
+                                    TYPE *occurences_of_n_infected,
+                                    size_t *sample_sizes, size_t n_samples);
+
+void relative_trial_results(double *target, unsigned int *trial_results,
+                            unsigned int *sample_sizes, size_t n_trials);
 #endif

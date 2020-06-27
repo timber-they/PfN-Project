@@ -158,7 +158,7 @@ int main(int argc, char *argv[]) {
 
     //sort_uint(trial_results, number_of_trials);
 
-    // FIXME doesn't work with variable sample sizes, cconvert get_median and
+    // FIXME doesn't work with variable sample sizes, convert get_median and
     // get_medium back to double again and apply them to relative_results
     //median = get_median(trial_results, number_of_trials);
     //medium = get_medium(trial_results, number_of_trials);
@@ -167,6 +167,7 @@ int main(int argc, char *argv[]) {
      confidence_interval =
         conf_itvl(trial_results, number_of_trials, confidence_level);
      */
+    relative_trial_results(relative_results, trial_results, sample_sizes, number_of_trials);
     for (i = 0; i < number_of_trials; i++) {
         relative_results[i] = (double)trial_results[i] / sample_sizes[i];
         //printf("%d\n",sample_sizes[i]);

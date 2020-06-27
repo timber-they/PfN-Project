@@ -19,6 +19,7 @@ void bucket_indices(size_t target[], size_t population_size, size_t n_buckets)
 }
 
 /*
+  TODO update
   get:
   - target: 0-initialized, allocated space of at
     least n_buckets * sizeof *buckets bytes
@@ -26,19 +27,25 @@ void bucket_indices(size_t target[], size_t population_size, size_t n_buckets)
   - n_buckets: length of the buckets-array
   - occurences_of_n_infected: occurences_of_n_infected[i] contains
     the number of samples that returned i infected people
+  - n_samples: number of samples
  */
 void percentage_of_trials_in_bucket(double target[], size_t *buckets,
                                     size_t n_buckets,
                                     TYPE *occurences_of_n_infected,
-                                    size_t population_size)
-                                    {
-
-    for (size_t i = 0, bucket = 0; i <= population_size; ++i) {
-        // Relies on short circuiting!
-        if (bucket + 1 < n_buckets && i >= buckets[bucket+1])
-        {
+                                    size_t *sample_sizes, size_t n_samples)
+{
+    for (size_t i = 0, bucket = 0; i <= n_samples; ++i) {
+    // Relies on short circuiting!
+        if (bucket + 1 < n_buckets && i >= buckets[bucket + 1]) {
             bucket++;
         }
-        target[bucket] += (double) occurences_of_n_infected[i] / population_size;
+        target[bucket] += (double)occurences_of_n_infected[i] / sample_sizes[i];
     }
-} // Kann ggf bucket_beginnings selbst aufrufen
+}
+
+void relative_trial_results(double *target, unsigned int *trial_results,
+                            unsigned int *sample_sizes, size_t n_trials) {
+    for (size_t i = 0; i < n_trials; ++i) {
+        target[i] = (double)trial_results[i] / sample_sizes[i];
+    }
+}
