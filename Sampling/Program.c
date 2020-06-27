@@ -38,11 +38,14 @@ int main(int argc, char *argv[])
     resultFile = fopen(resultFileName, "r+");
     if(resultFile == NULL)
     {
-        fprintf(stderr, "Could not open file");
-        return 1;
+        if (sampleSize == -1)
+        {
+            fprintf(stderr, "Could not open input file and no sample size was passed\n");
+            return 1;
+        }
     }
 
-    sampleSizes = calloc(sampleNumber, sizeof(*sampleSizes));
+    sampleSizes = malloc(sampleNumber);
     if (sampleSize == -1)
     {
         unsigned int line = 0;
@@ -70,10 +73,11 @@ int main(int argc, char *argv[])
     }
     else
     {
-        printf("Using fixed sample sizes\n");
+        printf("Using %u fixed sample sizes\n", sampleNumber);
         // Write fixed sample sizes into array
         for (unsigned int i = 0; i < sampleNumber; i++)
         {
+            printf("%u\n", i);
             sampleSizes[i] = sampleSize;
         }
     }
@@ -89,7 +93,13 @@ int main(int argc, char *argv[])
     // Sampling_Init
     initRandom(seed);
 
-    resultFile = freopen(resultFileName, "w", resultFile);
+    if (resultFile != NULL)
+    {
+        resultFile = freopen(resultFileName, "w", resultFile);
+    } else
+    {
+        resultFile = fopen(resultFileName, "w");
+    }
     if(resultFile == NULL)
     {
         fprintf(stderr, "Could not open file");
