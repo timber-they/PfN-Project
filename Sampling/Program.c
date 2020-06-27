@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 // TODO: Read just in time
-unsigned int *getSampleSizes(unsigned int sampleNumber, unsigned int sampleSize,
+static unsigned int *getSampleSizes(unsigned int sampleNumber, unsigned int sampleSize,
         FILE* resultFile, unsigned int maxSampleSize)
 {    
     unsigned int *sampleSizes = calloc(sampleNumber, sizeof(*sampleSizes));
@@ -54,7 +54,7 @@ unsigned int *getSampleSizes(unsigned int sampleNumber, unsigned int sampleSize,
     return sampleSizes;
 }
 
-int simulateTest(LazySource *source, double sensitivity, double specificity,
+static int simulateTest(LazySource *source, double sensitivity, double specificity,
         int positives)
 {
     if (takeElement(source))
@@ -75,6 +75,44 @@ int simulateTest(LazySource *source, double sensitivity, double specificity,
     return positives;
 }
 
+static FILE *openOrReopen(const char* filename, FILE *file)
+{
+    if (file != NULL)
+    {
+        file = freopen(filename, "w", file);
+    } else
+    {
+        file = fopen(filename, "w");
+    }
+    
+    return file;
+}
+
+static void simulateSample(unsigned int *sampleSizes, unsigned int sample,
+        LazySource *source, double sensitivity, double specificity,
+        FILE *resultFile)
+{
+    unsigned int sampleSize = sampleSizes[sample];
+    unsigned int positives = 0;
+    double correctedPercentage;
+    unsigned int correctedPositives;
+
+    reset(source);
+
+    for (int i = 0; i < sampleSize; i++)
+    {
+        positives = simulateTest(source, sensitivity, specificity, positives);
+    }
+
+    correctedPercentage = correction((double) positives /
+            sampleSize, sensitivity, specificity);
+    correctedPositives = correctedPercentage * sampleSize;
+
+    printf("%uth sample result: %u\t%u\n", sample, sampleSize,
+            correctedPositives);
+    fprintf(resultFile, "%u\t%u\n", sampleSize, correctedPositives);
+}
+
 int main(int argc, char *argv[])
 {
     double p = 0;
@@ -83,13 +121,9 @@ int main(int argc, char *argv[])
     unsigned int sampleSize = -1;
     int seed = 96661;
     LazySource *source;
-    unsigned int positives = 0;
-    double correctedPercentage;
-    unsigned int correctedPositives;
     double sensitivity = 0.909;
     double specificity = 0.991;
     unsigned int *sampleSizes;
-    
         
     const char *resultFileName = "sampleResult.tsv";
     FILE *resultFile = NULL;
@@ -124,13 +158,7 @@ int main(int argc, char *argv[])
     // Sampling_Init
     initRandom(seed);
 
-    if (resultFile != NULL)
-    {
-        resultFile = freopen(resultFileName, "w", resultFile);
-    } else
-    {
-        resultFile = fopen(resultFileName, "w");
-    }
+    resultFile = openOrReopen(resultFileName, resultFile);
     if (resultFile == NULL)
     {
         fprintf(stderr, "Could not open file");
@@ -142,25 +170,8 @@ int main(int argc, char *argv[])
     printf("Got lazy source\n");
     for(int sample = 0; sample < sampleNumber; sample++)
     {
-        sampleSize = sampleSizes[sample];
-        positives = 0;
-        reset(source);
-
-        // Sampling_Ready -> Sampling_Progressing
-        for (int i = 0; i < sampleSize; i++)
-        {
-            positives = simulateTest(source, sensitivity, specificity,
-                    positives);
-        }
-
-        correctedPercentage = correction((double) positives /
-                                          sampleSize, sensitivity, specificity);
-        correctedPositives = correctedPercentage * sampleSize;
-
-        // Sampling_Done
-        printf("%uth sample result: %u\t%u\n", sample, sampleSize,
-                correctedPositives);
-        fprintf(resultFile, "%u\t%u\n", sampleSize, correctedPositives);
+        simulateSample(sampleSizes, sample, source, sensitivity, specificity,
+                resultFile);
     }
 
     fclose(resultFile);
