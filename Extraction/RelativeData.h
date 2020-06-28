@@ -2,6 +2,9 @@
 #define RELATIVE_DATA_H
 
 #include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 
 #define TYPE unsigned int
 /*
@@ -29,4 +32,7 @@ void percentage_of_trials_in_bucket(double target[], size_t *buckets,
 
 void relative_trial_results(double *target, unsigned int *trial_results,
                             unsigned int *sample_sizes, size_t n_trials);
+
+void write_percentages_to_file(double *relative_results, size_t n_samples,
+                               FILE *file);
 #endif

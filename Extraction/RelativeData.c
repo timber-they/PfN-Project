@@ -49,3 +49,38 @@ void relative_trial_results(double *target, unsigned int *trial_results,
         target[i] = (double)trial_results[i] / sample_sizes[i];
     }
 }
+
+void write_percentages_to_file(double *relative_results, size_t n_samples,
+                               FILE *file)
+{
+    if (file == NULL)
+    {
+        fprintf(stderr, "write_percentages_to_file: no valid file was given.");
+    }
+
+    // round to percentages
+    double *percentage_points = malloc(n_samples * sizeof *percentage_points);
+
+    for (size_t i = 0; i < n_samples; i++) {
+        percentage_points[i] = round(relative_results[i] * 100);
+        printf("%lf\n", percentage_points[i]);
+    }
+
+    // write to file
+    unsigned int count = 0;
+    double rel_count = 0;
+
+    for (size_t i = 0; i < n_samples - 1; i++) {
+        count++;
+
+        if (percentage_points[i] < percentage_points[i + 1]) {
+            // TODO if sample sizes are not constant, multiply with a weight
+            rel_count = (double) count / n_samples;
+            fprintf(file, "0.%.0lf %lf\n", percentage_points[i], rel_count);
+            fprintf(stderr, "0.%.0lf %lf\n", percentage_points[i], rel_count);
+            count = 0;
+        }
+    }
+    rel_count = (double)count / n_samples;
+    fprintf(file, "0.%.0lf %lf\n", percentage_points[n_samples - 1], rel_count);
+}
