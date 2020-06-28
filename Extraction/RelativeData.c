@@ -30,15 +30,55 @@ void bucket_indices(size_t target[], size_t population_size, size_t n_buckets)
 void percentage_of_trials_in_bucket(double target[], size_t *buckets,
                                     size_t n_buckets,
                                     TYPE *occurences_of_n_infected,
-                                    size_t population_size)
-                                    {
-
-    for (size_t i = 0, bucket = 0; i <= population_size; ++i) {
-        // Relies on short circuiting!
-        if (bucket + 1 < n_buckets && i >= buckets[bucket+1])
-        {
+                                    size_t *sample_sizes, size_t n_samples)
+{
+    for (size_t i = 0, bucket = 0; i <= n_samples; ++i) {
+    // Relies on short circuiting!
+        if (bucket + 1 < n_buckets && i >= buckets[bucket + 1]) {
             bucket++;
         }
-        target[bucket] += (double) occurences_of_n_infected[i] / population_size;
+        target[bucket] += (double)occurences_of_n_infected[i] / sample_sizes[i];
     }
-} // Kann ggf bucket_beginnings selbst aufrufen
+}
+
+void relative_trial_results(double *target, unsigned int *trial_results,
+                            unsigned int *sample_sizes, size_t n_trials) {
+    for (size_t i = 0; i < n_trials; ++i) {
+        target[i] = (double)trial_results[i] / sample_sizes[i];
+    }
+}
+
+void write_percentages_to_file(double *relative_results, size_t n_samples,
+                               FILE *file)
+{
+    if (file == NULL)
+    {
+        fprintf(stderr, "write_percentages_to_file: no valid file was given.");
+    }
+
+    // round to percentages
+    double *percentage_points = malloc(n_samples * sizeof *percentage_points);
+
+    for (size_t i = 0; i < n_samples; i++) {
+        percentage_points[i] = round(relative_results[i] * 100);
+        printf("%lf\n", percentage_points[i]);
+    }
+
+    // write to file
+    unsigned int count = 0;
+    double rel_count = 0;
+
+    for (size_t i = 0; i < n_samples - 1; i++) {
+        count++;
+
+        if (percentage_points[i] < percentage_points[i + 1]) {
+            // TODO if sample sizes are not constant, multiply with a weight
+            rel_count = (double) count / n_samples;
+            fprintf(file, "0.%.0lf %lf\n", percentage_points[i], rel_count);
+            fprintf(stderr, "0.%.0lf %lf\n", percentage_points[i], rel_count);
+            count = 0;
+        }
+    }
+    rel_count = (double)count / n_samples;
+    fprintf(file, "0.%.0lf %lf\n", percentage_points[n_samples - 1], rel_count);
+}

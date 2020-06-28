@@ -2,11 +2,6 @@
 
 #include "Median.h"
 
-int comp_int(const void *a, const void *b)
-{
-  return *((int*) a) - *((int*) b);
-}
-
 /*
 the median is the middle element of a sorted array.
 If the length is even, the average of the 2 middle elements is taken.

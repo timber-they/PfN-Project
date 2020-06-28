@@ -2,6 +2,9 @@
 #define RELATIVE_DATA_H
 
 #include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 
 #define TYPE unsigned int
 /*
@@ -22,9 +25,14 @@ void bucket_indices(size_t target[], size_t population_size, size_t n_buckets);
   - occurences_of_n_infected: occurences_of_n_infected[i] contains
   the number of samples that returned i infected people
 */
-void
-percentage_of_trials_in_bucket(double target[], size_t *buckets,
-                               size_t n_buckets,
-                               TYPE *occurences_of_n_infected,
-                               size_t n_trials);
+void percentage_of_trials_in_bucket(double target[], size_t *buckets,
+                                    size_t n_buckets,
+                                    TYPE *occurences_of_n_infected,
+                                    size_t *sample_sizes, size_t n_samples);
+
+void relative_trial_results(double *target, unsigned int *trial_results,
+                            unsigned int *sample_sizes, size_t n_trials);
+
+void write_percentages_to_file(double *relative_results, size_t n_samples,
+                               FILE *file);
 #endif
