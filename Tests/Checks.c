@@ -40,8 +40,6 @@ int main (void)
     tcase_add_test(tc2_1, test_conf_itvl_same_values);
     tcase_add_test(tc2_1, test_array_max_value);
     tcase_add_test(tc2_1, test_absolute_frequencies_positive);
-    tcase_add_test(tc2_1, test_bucket_indices_pos);
-    tcase_add_test(tc2_1, test_percentage_of_trials);
 
     srunner_run_all(sr, CK_NORMAL);
     nf = srunner_ntests_failed(sr);
