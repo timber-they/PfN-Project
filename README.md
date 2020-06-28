@@ -46,7 +46,8 @@ brew install Gnuplot
 `
 
 ## Running it
- 
+You have to be in the Main `PfN-Project` Directory and do:
+
 `make`
 
 **Usage:** `./Program.x <Ps> <Ss> <Sc> <p> [<s>] [<se>] [<sp>]`
