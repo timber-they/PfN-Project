@@ -1,12 +1,13 @@
 CC?=clang
 CFLAGS=-g -Wall -Werror -Wunused-parameter -Wunused-variable -O3 -pedantic
 FILE_BASE=Program
+CLIBS=-lm
 DEPENDENCIES=
 
 all:${FILE_BASE}.x
 
 %.x:%.c ${DEPENDENCIES}
-	${CC} ${CFLAGS} -o $@ $< ${DEPENDENCIES}
+	${CC} ${CFLAGS} -o $@ $< ${CLIBS} ${DEPENDENCIES}
 
 README:Makefile
 	@echo "Program is implemented in Program.c" > $@
