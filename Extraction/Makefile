@@ -7,7 +7,7 @@ DEPENDENCIES=AbsoluteData.c CSV_Output.c ConfidenceIntervals.c Histograms.c Medi
 all:${FILE_BASE}.x
 
 %.x:%.c
-	${CC} ${CFLAGS} -o $@ $< ${CLIBS} ${DEPENDENCIES}
+	${CC} ${CFLAGS} -o $@ $< ${DEPENDENCIES} ${CLIBS}
 
 README:Makefile
 	@echo "This could be a nice readme." > $@
