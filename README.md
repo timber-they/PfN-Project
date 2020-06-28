@@ -13,8 +13,8 @@ This project aims to look at the uncertainty in the study from the university of
 <p align="center">
     <b>
       Our latest compiled Histogram:
-        <h1 align="center">
-          <img src="images/Histogram.png" alt="Histogram" />
-        </h1>
     </b>  
+</p>
+<p align="center">
+  <img src="images/Histogram.jpeg" alt="Histogram"/>
 </p>
