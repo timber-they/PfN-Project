@@ -72,7 +72,7 @@ void write_percentages_to_file(double *relative_results, size_t n_samples,
         if (percentage_points[i] < percentage_points[i + 1]) {
             // TODO if sample sizes are not constant, multiply with a weight
             rel_count = (double) count / n_samples;
-            fprintf(file, "0.%.0lf %lf\n", percentage_points[i], rel_count);
+            fprintf(file, "%lf %lf\n", percentage_points[i] / 100, rel_count);
             count = 1;
         }
         else {
@@ -81,5 +81,5 @@ void write_percentages_to_file(double *relative_results, size_t n_samples,
         }
     }
     rel_count = (double)count / n_samples;
-    fprintf(file, "0.%.0lf %lf\n", percentage_points[n_samples - 1], rel_count);
+    fprintf(file, "%lf %lf\n", percentage_points[n_samples - 1] / 100, rel_count);
 }
