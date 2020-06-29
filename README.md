@@ -6,7 +6,8 @@
   <a href="https://github.com/MetaColon/PfN-Project/wiki/Rules-of-Conduct">Rules of Conduct</a> |
   <a href="https://github.com/MetaColon/PfN-Project/wiki/Projects">Projects</a> |
   <a href="https://github.com/MetaColon/PfN-Project/wiki/Git-Guide">Git Guide</a> |
-  <a href="https://github.com/MetaColon/PfN-Project/wiki/Interface-Workflow">Interface Workflow</a>
+  <a href="https://github.com/MetaColon/PfN-Project/wiki/Interface-Workflow">Interface Workflow</a> |
+  <a href="https://github.com/MetaColon/PfN-Project/blob/master/CODE_OF_CONDUCT.md">CODE OF CONDUCT</a>
 </p>
 The repository for the PfN (2) project in physics
 This project aims to look at the uncertainty in the study from the university of Bonn and perhaps, the similar study of Santa Monica area.
