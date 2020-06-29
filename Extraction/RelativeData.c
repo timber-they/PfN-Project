@@ -64,17 +64,20 @@ void write_percentages_to_file(double *relative_results, size_t n_samples,
     }
 
     // write to file
-    unsigned int count = 0;
-    double rel_count = 0;
+    unsigned int count = 1;
+    double rel_count = 1/n_samples;
 
     for (size_t i = 0; i < n_samples - 1; i++) {
-        count++;
 
         if (percentage_points[i] < percentage_points[i + 1]) {
             // TODO if sample sizes are not constant, multiply with a weight
             rel_count = (double) count / n_samples;
             fprintf(file, "0.%.0lf %lf\n", percentage_points[i], rel_count);
-            count = 0;
+            count = 1;
+        }
+        else {
+            count++;
+            rel_count = (double) count/n_samples;
         }
     }
     rel_count = (double)count / n_samples;
