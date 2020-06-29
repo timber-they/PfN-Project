@@ -4,7 +4,7 @@ CLIBS=-lcheck -pthread -pthread -lrt -lm
 MACCLIBS=-lcheck -pthread -pthread -lm
 UBUNTUFLAGS=-lsubunit
 FILE_BASE=Checks
-DEPENDENCIES=../Sampling/Lazy_Sampling.c ../Sampling/Random.c ../Extraction/Histograms.c ../Sampling/correction.c ../Sampling/Basic_Sampling.c ../Extraction/Median.c ../Extraction/Medium.c ../Extraction/ConfidenceIntervals.c ../Extraction/AbsoluteData.c ../Extraction/RelativeData.c
+DEPENDENCIES=../Sampling/Lazy_Sampling.c ../Sampling/Random.c ../Extraction/Histograms.c ../Sampling/correction.c ../Sampling/Basic_Sampling.c ../Extraction/Median.c ../Extraction/Medium.c ../Extraction/ConfidenceIntervals.c ../Extraction/AbsoluteData.c ../Extraction/RelativeData.c ../Extraction/CSV_Output.c ../Extraction/Sort.c ../Extraction/InputCheck.c
 
 OS?=$(shell [ -e "/etc/os-release" ] && grep ^NAME=".*" /etc/os-release)
 ifeq ($(OS),)
@@ -36,3 +36,4 @@ Note that you might need to add source files here to be compiled." >$@
 clean:
 	${RM} ${FILE_BASE}.[ox]
 	${RM} gmon-out
+	${RM} data.dat results.csv
