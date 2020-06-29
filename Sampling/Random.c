@@ -7,7 +7,7 @@ float getRandomNumber()
     return(drand48());
 }
 
-//init seed, only needed once
+// init seed, only needed once
 void initRandom(int temp_seed)
 {
     int seed;
