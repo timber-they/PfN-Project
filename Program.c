@@ -104,9 +104,9 @@ int main (int argc, char *argv[])
         getLengthInt(-1) + 1 +
         getLengthInt(seed) + 1 +
         getLengthDouble(sensitivity) + 1 +
-        getLengthDouble(specificity) + 1, sizeof(char));
+        getLengthDouble(specificity) + 2, sizeof(char));
         
-    sprintf(sampling_call, "cd Sampling && make && ./Program.x %lf %d %d %d %d %lf %lf", 
+    sprintf(sampling_call, "cd Sampling && make && ./Program.x %lf %d %d %d %d %lf %lf\n", 
             probability, population_size, sample_count, -1, seed, sensitivity, specificity);
 
     if (writeSizesToFile(resultsName, sample_size, sample_count) != 0)
