@@ -54,6 +54,10 @@ You have to be in the Main `PfN-Project` Directory and do:
 **Usage:** `./Program.x <Ps> <Ss> <Sc> <p> [<s>] [<se>] [<sp>]`
 
 ## Running the tests
+We use Check, to install check do:
+
+`apt-get install check` or `brew install check`
+
 To Run the tests do:
 
 
