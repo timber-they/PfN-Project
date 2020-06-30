@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <errno.h>
 
 int getLengthInt(int i)
 {
@@ -56,7 +57,7 @@ int run(char* call)
 
     if (p == NULL)
     {
-        fprintf(stderr, "Can't run %s", call);
+        fprintf(stderr, "Can't run %s; failed with %s", call, strerror(errno));
         return -1;
     }
 
