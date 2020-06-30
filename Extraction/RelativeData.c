@@ -77,6 +77,7 @@ void write_percentages_to_file(double *relative_results, size_t n_samples,
             count = 0;
         }
     }
+    count++;
     rel_count = (double)count / n_samples;
     fprintf(file, "%lf %lf\n", percentage_points[n_samples - 1] / 100, rel_count);
 }
