@@ -51,6 +51,7 @@ void relative_trial_results(double *target, unsigned int *trial_results,
 void write_percentages_to_file(double *relative_results, size_t n_samples,
                                FILE *file)
 {
+    printf("Entering method\n");
     if (file == NULL)
     {
         fprintf(stderr, "write_percentages_to_file: no valid file was given.");
