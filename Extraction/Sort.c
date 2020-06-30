@@ -25,7 +25,7 @@ void sort_double(double *array, size_t n_elems) {
     printf("Sorted: ");
     for (unsigned int i = 0; i < n_elems; i++)
     {
-        printf("%d, ", array[i]);
+        printf("%lf, ", array[i]);
     }
     printf("\n");
 }

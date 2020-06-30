@@ -6,7 +6,7 @@ DEPENDENCIES=AbsoluteData.c CSV_Output.c ConfidenceIntervals.c Histograms.c Medi
 
 all:${FILE_BASE}.x
 
-%.x:%.c
+%.x:%.c ${DEPENDENCIES} 
 	${CC} ${CFLAGS} -o $@ $< ${DEPENDENCIES} ${CLIBS}
 
 README:Makefile
