@@ -1,6 +1,6 @@
 #include <math.h>
 #include <stdlib.h>
-
+#include <stdio.h>
 #include "Sort.h"
 
 int comp_int(const void *a, const void *b)
