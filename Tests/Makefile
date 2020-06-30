@@ -1,5 +1,5 @@
 CC?=clang
-CFLAGS=-g -Wall -Werror -Wunused-parameter -Wunused-variable -O3 -pedantic -Wno-gnu-zero-variadic-macro-arguments
+CFLAGS=-g -Wall -Wunused-parameter -Wunused-variable -O3 -pedantic -Wno-gnu-zero-variadic-macro-arguments
 CLIBS=-lcheck -pthread -pthread -lrt -lm
 MACCLIBS=-lcheck -pthread -pthread -lm
 UBUNTUFLAGS=-lsubunit
