@@ -14,7 +14,9 @@ int comp_double(const void *va, const void *vb) {
     if (fabs(a - b) < 1.0e-6) {
         return 0;
     }
-    return a > b;
+    if (a > b)
+        return 1;
+    return -1;
 }
 void sort_int(int *array, size_t n_elems) {
     qsort(array, n_elems, sizeof *array, comp_int);
