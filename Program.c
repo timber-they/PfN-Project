@@ -34,7 +34,7 @@ int writeSizesToFile(char* fileName, unsigned int sampleSize, unsigned int sampl
     FILE *resultFile = fopen(fileName, "w");
     if(resultFile == NULL)
     {
-        fprintf(stderr, "Could not open file");
+        fprintf(stderr, "Could not open file\n");
         return 1;
     }
     
@@ -57,8 +57,12 @@ int run(char* call)
 
     if (p == NULL)
     {
-        fprintf(stderr, "Can't run %s; failed with %s", call, strerror(errno));
-        return -1;
+        int return_code;
+        fprintf(stderr, 
+                "Can't run %s; failed with %s - using system call instead\n", 
+                call, strerror(errno));
+        return_code = system(call);
+        return return_code;
     }
 
     printf("Running %s", call);
