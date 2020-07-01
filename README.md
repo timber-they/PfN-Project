@@ -17,7 +17,7 @@ This project aims to look at the uncertainty in the study from the university of
     </b>  
 </p>
 <p align="center">
-  <img src="images/Histogram.jpeg" alt="Histogram"/>
+  <img src="images/Histogram.png" alt="Histogram"/>
 </p>
 
 ## Getting Started

@@ -107,7 +107,7 @@ int paintHistogram(char *source, double *confidence_intervall,
         medianCommand, medianCommand2, mediumCommand, mediumCommand2,
         arrowCommand, confidenceCommand, confidenceCommand2,
         plotCommand,
-        "set terminal png size 800,800; set output \"Histogram.png\"",
+        "set terminal png size 800,800; set output \"images/Histogram.png\"",
         "replot"};
     
     /*
