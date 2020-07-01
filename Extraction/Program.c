@@ -97,7 +97,7 @@ int main(int argc, char *argv[]) {
 
     // TODO Pascal paint gnuplot data
 
-    paintHistogram("data.dat", confidence_interval, median, medium);
+    paintHistogram("data.dat", confidence_interval, median, medium, confidence_level, population_size, number_of_trials);
     //remove("data.dat");
     printf("Population Size:%u, median: %lf, medium: %lf, confidence_interval[0]: %lf, confidence_interval[1]: %lf\n", population_size, median, medium,
            confidence_interval[0],

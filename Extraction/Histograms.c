@@ -2,16 +2,56 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <math.h>
 #include "Histograms.h"
 
-//the maximum lenth for the filname of the sources is 32 characters
-int paintHistogram(char *source, double *confidence_intervall, double median, double medium)
+int labelCommand(char *command, int idx, const char *name, int name_length,
+                 int value, int value_length)
 {
-    int bla = confidence_intervall[0];
-    bla++;
-    int i, numCommands = 11;
-    char plotCommand[50], medianCommand[50], mediumCommand[50],
-    arrowCommand[100], confidenceCommand[100];
+    double ypos = (double) 0.9 - 0.03 * idx;
+    strcpy(command, "set label \"");
+    strcat(command, name);
+    strcat(command, " = ");
+    sprintf(command + 14 + name_length, "%d", value);
+    strcat(command, "\" at graph 0.03,");
+    sprintf(command + 30 + name_length + value_length, "%.3f", ypos);
+    return 0;
+}
+
+int labelCommandDbl(char *command, int idx, const char *name,
+                    int name_length, double value)
+{
+    double ypos = (double) 0.9 - 0.03 * idx;
+    strcpy(command, "set label \"");
+    strcat(command, name);
+    strcat(command, " = ");
+    sprintf(command + 14 + name_length, "%.3f", value);
+    strcat(command, "\" at graph 0.03,");
+    sprintf(command + 35 + name_length, "%.3f", ypos);
+    return 0;
+}
+
+int coloredLabelCommand(char *command, int idx, const char *name,
+                        int name_length, double value, const char *color)
+{
+    labelCommandDbl(command, idx, name, name_length, value);
+    strcat(command, " textcolor rgb \"");
+    strcat(command, color);
+    strcat(command, "\"");
+    return 0;
+}
+
+//the maximum lenth for the filname of the sources is 32 characters
+int paintHistogram(char *source, double *confidence_intervall,
+                   double median, double medium, double confidence_level,
+                   int population_size, int number_of_trials)
+{
+    int i, numCommands = 18;
+    char populationCommand[100], trialsCommand[100],
+    medianCommand[100], medianCommand2[100],
+    mediumCommand[100], mediumCommand2[100],
+    arrowCommand[100], confidenceCommand[100], confidenceCommand2[100],
+    plotCommand[50];
     if (strlen(source) > 32)
     {
         // filename is too long
@@ -24,25 +64,38 @@ int paintHistogram(char *source, double *confidence_intervall, double median, do
         fprintf(stderr, "Histograms: invalid name of source for histograms function, or source doesnt exist.\n");
         return 1;
     }
-    strcpy(medianCommand, "set label \"median = ");
-    sprintf(medianCommand + 20, "%.3f", median);
-    strcat(medianCommand, "\" at graph 0.03,0.9");
-    strcpy(mediumCommand, "set label \"medium = ");
-    sprintf(mediumCommand + 20, "%.3f", medium);
-    strcat(mediumCommand, "\" at graph 0.03,0.87");
+    labelCommand(populationCommand, 0, "population", 10, population_size,
+                 floor(log10(abs(population_size))) + 1);
+    labelCommand(trialsCommand, 1, "trials", 6, number_of_trials,
+                 floor(log10(abs(number_of_trials))) + 1);
+    coloredLabelCommand(medianCommand, 3, "median", 6, median, "red");
+    coloredLabelCommand(mediumCommand, 4, "medium", 6, medium, "blue");
+    labelCommandDbl(confidenceCommand, 5, "confidence level", 16, confidence_level);
     strcpy(arrowCommand, "set arrow 1 from ");
     sprintf(arrowCommand + 17, "%.3f", confidence_intervall[0]);
     strcat(arrowCommand, ", graph 0.5 to ");
     sprintf(arrowCommand + 37, "%.3f", confidence_intervall[1]);
     strcat(arrowCommand, ", graph 0.5 heads front");
-    strcpy(confidenceCommand, "set label \"confidence intervall from ");
-    sprintf(confidenceCommand + 37 , "%.3f", confidence_intervall[0]);
-    strcat(confidenceCommand, " to ");
-    sprintf(confidenceCommand + 46 , "%.3f", confidence_intervall[1]);
-    strcat(confidenceCommand, "\" at ");
-    sprintf(confidenceCommand + 56 , "%.3f", confidence_intervall[0]);
-    strcat(confidenceCommand, ", graph 0.53 front");
-    printf("%s", confidenceCommand);
+    strcpy(confidenceCommand2, "set label \"confidence intervall from ");
+    sprintf(confidenceCommand2 + 37 , "%.3f", confidence_intervall[0]);
+    strcat(confidenceCommand2, " to ");
+    sprintf(confidenceCommand2 + 46 , "%.3f", confidence_intervall[1]);
+    strcat(confidenceCommand2, " (");
+    sprintf(confidenceCommand2 + 53 , "%2.0f", confidence_level * 100);
+    strcat(confidenceCommand2, "%)\" at ");
+    sprintf(confidenceCommand2 + 62 , "%.3f", confidence_intervall[0]);
+    strcat(confidenceCommand2, ", graph 0.53 front");
+    strcpy(medianCommand2, "set arrow 3 from first ");
+    sprintf(medianCommand2 + 23, "%.3f", median);
+    strcat(medianCommand2, ", graph 0.0 to first ");
+    sprintf(medianCommand2 + 49, "%.3f", median);
+    strcat(medianCommand2, ", graph 0.4 nohead front lc \"red\"");
+    strcpy(mediumCommand2, "set arrow 2 from first ");
+    sprintf(mediumCommand2 + 23, "%.3f", medium);
+    strcat(mediumCommand2, ", graph 0.0 to first ");
+    sprintf(mediumCommand2 + 49, "%.3f", medium);
+    strcat(mediumCommand2, ", graph 0.4 nohead front lc \"blue\"");
+    printf("%s", medianCommand2);
     strcpy(plotCommand, "plot \"");
     strcat(plotCommand, source);
     strcat(plotCommand, "\" w boxes lt rgb \"green\"");
@@ -50,8 +103,12 @@ int paintHistogram(char *source, double *confidence_intervall, double median, do
         "set xlabel \"population\"",
         "set ylabel \"Probability\"", "set size square",
         "set boxwidth 0.85 relative", "set style fill solid 1.0",
-        medianCommand, mediumCommand, arrowCommand, confidenceCommand,
-        plotCommand};
+        populationCommand, trialsCommand,
+        medianCommand, medianCommand2, mediumCommand, mediumCommand2,
+        arrowCommand, confidenceCommand, confidenceCommand2,
+        plotCommand,
+        "set terminal png size 800,800; set output \"Histogram.png\"",
+        "replot"};
     
     /*
     Opens an interface that one can use to send commands as if they were typing into the
