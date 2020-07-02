@@ -1,9 +1,0 @@
-diff --git a/Tests/Check_Lazy_Sampling.h b/Tests/Check_Lazy_Sampling.h
-index aee6986..5ce8674 100644
---- a/Tests/Check_Lazy_Sampling.h
-+++ b/Tests/Check_Lazy_Sampling.h
-@@ -1,3 +1,4 @@
-+// Bla
- #include "../Sampling/Lazy_Sampling.h"
- 
- START_TEST(test_create_source_non_empty)
