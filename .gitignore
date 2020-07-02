@@ -55,4 +55,5 @@ dkms.conf
 *.DS_STORE
 *.x
 *.tsv
+*.idea/
 Extraction/Program.c.old.c
